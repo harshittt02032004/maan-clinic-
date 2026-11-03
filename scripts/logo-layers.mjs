@@ -31,7 +31,8 @@ for (let y = 0; y < H; y++) {
     const blue = b > r + 40 && b > g + 10;
     const pink = r > g + 60 && r > b;
     let key;
-    if (pink && x < xMarkEdge && y < yMarkRight + H * 0.04) continue; // colour bleed under the M
+    // faint pink JPEG bleed just under the M's right leg (letters are fully saturated, bleed is not)
+    if (pink && r - g < 120 && x > W * 0.25 && x < xMarkEdge && y > H * 0.44 && y < H * 0.53) continue;
     if (blue) key = "mark";
     else if (pink) key = "word";
     else if (y >= yTag) key = "tag";
