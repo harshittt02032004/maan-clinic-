@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+/* ───────────────────────── Mann Clinic design tokens ─────────────────────────
+   Palette lifted from the Instagram poster set: magenta-pink hero colour,
+   deep indigo-navy for headings, blush washes, white cards.                  */
+@theme {
+  --color-pink-50: #fff1f7;
+  --color-pink-100: #ffe1ee;
+  --color-pink-200: #ffc2dc;
+  --color-pink-300: #ff93c1;
+  --color-pink-400: #f95aa0;
+  --color-pink-500: #ec2d84;
+  --color-pink-600: #d9127a;
+  --color-pink-700: #b40b63;
+  --color-pink-800: #8c0a4e;
+  --color-pink-900: #5c0633;
+
+  --color-navy-50: #eef1fb;
+  --color-navy-100: #dbe1f5;
+  --color-navy-200: #b6c2ea;
+  --color-navy-300: #8396d6;
+  --color-navy-400: #5569bd;
+  --color-navy-500: #3a4b9f;
+  --color-navy-600: #2d3a86;
+  --color-navy-700: #232d6b;
+  --color-navy-800: #1b2352;
+  --color-navy-900: #121738;
+
+  --color-blush: #fff6fa;
+  --color-ink: #141a3a;
+  --color-muted: #5b6283;
+
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-outfit), var(--font-jakarta), sans-serif;
+  --font-hindi: var(--font-devanagari), var(--font-jakarta), sans-serif;
+
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.75rem;
+  --radius-4xl: 2.5rem;
+
+  --shadow-soft: 0 10px 40px -12px rgba(28, 36, 100, 0.18);
+  --shadow-pink: 0 18px 48px -14px rgba(236, 45, 132, 0.45);
+}
+
+:root {
+  --header-h: 76px;
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: auto;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  @apply bg-blush text-ink font-sans antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-pink-500);
+  color: #fff;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.hindi {
+  font-family: var(--font-hindi);
+  letter-spacing: 0;
+}
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* ───────────────────────── Utilities ───────────────────────── */
+@utility container-x {
+  @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
+}
+
+@utility section-y {
+  @apply py-20 sm:py-24 lg:py-32;
+}
+
+@utility text-gradient {
+  background: linear-gradient(100deg, var(--color-pink-600) 0%, var(--color-pink-400) 45%, var(--color-navy-500) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility eyebrow {
+  @apply inline-flex items-center gap-2 rounded-full border border-pink-200 bg-white/70 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-pink-700 backdrop-blur;
+}
+
+@utility card {
+  @apply rounded-3xl border border-white/70 bg-white/85 shadow-[var(--shadow-soft)] backdrop-blur-sm;
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold tracking-wide transition-[transform,box-shadow,background-color,color] duration-300 will-change-transform focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-pink-300/60;
+}
+
+@utility btn-primary {
+  @apply btn bg-pink-600 text-white shadow-[var(--shadow-pink)] hover:bg-pink-500 active:scale-[0.98];
+}
+
+@utility btn-ghost {
+  @apply btn border-2 border-navy-200 bg-white/70 text-navy-800 hover:border-navy-400 hover:bg-white;
+}
+
+@utility btn-navy {
+  @apply btn bg-navy-800 text-white hover:bg-navy-700;
+}
+
+/* Dotted poster-style background */
+.bg-dots {
+  background-image: radial-gradient(rgba(236, 45, 132, 0.14) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+
+/* Soft blobs behind heroes */
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  pointer-events: none;
+}
+
+/* Cursor "calm halo" — new to this site */
+.halo {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(
+    420px circle at var(--hx, 50%) var(--hy, 50%),
+    rgba(255, 147, 193, 0.22),
+    rgba(255, 147, 193, 0.08) 35%,
+    transparent 70%
+  );
+  transition: opacity 0.6s ease;
+}
+@media (hover: none) { .halo { display: none; } }
+
+/* Text-mask reveal for the confidential line */
+.mask-reveal {
+  background-image: linear-gradient(90deg, var(--color-ink) 0 50%, rgba(20, 26, 58, 0.18) 50% 100%);
+  background-size: 200% 100%;
+  background-position: var(--p, 100%) 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Breathing ring keyframes (used as CSS fallback) */
+@keyframes breathe {
+  0%, 100% { transform: scale(0.72); }
+  50% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

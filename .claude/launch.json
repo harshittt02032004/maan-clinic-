@@ -1,0 +1,14 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "mann-dev",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "set PATH=C:\\PROGRA~1\\nodejs;%PATH%&& cd /d C:\\Users\\HP\\mann-clinic-site&& C:\\PROGRA~1\\nodejs\\node.exe node_modules\\next\\dist\\bin\\next dev --port 3171"
+      ],
+      "port": 3171
+    }
+  ]
+}
