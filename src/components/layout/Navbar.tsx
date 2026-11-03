@@ -43,11 +43,11 @@ export default function Navbar() {
         className="container-x"
       >
         <div
-          className={`flex items-center justify-between gap-4 rounded-full border px-4 pl-5 transition-all duration-500 ${
-            scrolled ? "border-white/80 bg-white/85 py-1.5 shadow-[var(--shadow-soft)] backdrop-blur-xl" : "border-white/60 bg-white/55 py-2 backdrop-blur-md"
+          className={`flex items-center justify-between gap-4 rounded-full border px-3 pl-4 transition-all duration-500 sm:px-4 sm:pl-6 ${
+            scrolled ? "border-white/80 bg-white/90 py-1 shadow-[var(--shadow-soft)] backdrop-blur-xl" : "border-white/70 bg-white/70 py-1.5 backdrop-blur-md"
           }`}
         >
-          <Logo height={scrolled ? 44 : 52} priority />
+          <Logo variant="full" height={scrolled ? 62 : 78} priority />
 
           <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
             {NAV.map((item) =>

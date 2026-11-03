@@ -15,7 +15,7 @@ import { EASE, EASE_OUT_BACK } from "@/lib/motion";
  * `variant="full"` shows everything including "We care about your feelings..".
  */
 const CANVAS_RATIO = 560 / 475;
-const NAV_CROP = 0.72; // share of height that holds figures + wordmark
+const NAV_CROP = 0.76; // share of height that holds figures + wordmark (tagline starts below)
 
 export default function Logo({
   variant = "nav",
@@ -41,10 +41,10 @@ export default function Logo({
         initial={init}
         animate="show"
         whileHover="hover"
-        className="relative block overflow-hidden"
-        style={{ width: w, height, ["--logo-h" as string]: `${fullH}px` }}
+        className="relative block overflow-hidden transition-[width,height] duration-500"
+        style={{ width: w, height }}
       >
-        <span className="absolute left-0 top-0 block" style={{ width: w, height: fullH }}>
+        <span className="absolute left-0 top-0 block transition-[width,height] duration-500" style={{ width: w, height: fullH }}>
           {/* figures */}
           <motion.span
             className="absolute inset-0 block"
