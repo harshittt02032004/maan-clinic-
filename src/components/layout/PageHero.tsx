@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
 import WordReveal from "@/components/motion/WordReveal";
 import { Reveal } from "@/components/motion/Reveal";
 import JsonLd from "@/components/ui/JsonLd";
@@ -23,28 +22,26 @@ export default function PageHero({
   compact?: boolean;
 }) {
   return (
-    <section className={`relative overflow-hidden ${compact ? "pt-28 pb-10 sm:pt-36" : "pt-32 pb-14 sm:pt-40 sm:pb-20"}`}>
+    <section className="rule-b">
       <JsonLd data={breadcrumbLd([{ name: "Home", path: "/" }, ...crumbs])} />
-      <div className="bg-dots absolute inset-0 -z-10 opacity-60 [mask-image:radial-gradient(60%_60%_at_30%_20%,#000,transparent)]" />
-      <div className="blob -left-32 -top-10 size-[24rem] bg-pink-300/50" />
-      <div className="container-x">
-        <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1 text-xs font-semibold text-muted">
-          <Link href="/" className="hover:text-pink-600">Home</Link>
+      <div className={`container-x ${compact ? "py-10 sm:py-14" : "py-12 sm:py-20"}`}>
+        <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-[13px] text-body">
+          <Link href="/" className="hover:text-magenta">Home</Link>
           {crumbs.map((c, i) => (
-            <span key={c.path} className="inline-flex items-center gap-1">
-              <ChevronRight className="size-3" />
-              {i === crumbs.length - 1 ? <span className="text-navy-800">{c.name}</span> : <Link href={c.path} className="hover:text-pink-600">{c.name}</Link>}
+            <span key={c.path} className="inline-flex items-center gap-2">
+              <span aria-hidden className="text-rule">/</span>
+              {i === crumbs.length - 1 ? <span className="font-medium text-ink">{c.name}</span> : <Link href={c.path} className="hover:text-magenta">{c.name}</Link>}
             </span>
           ))}
         </nav>
-        <div className="mt-6 grid items-end gap-10 lg:grid-cols-12">
-          <div className={children ? "lg:col-span-7" : "lg:col-span-9"}>
-            {eyebrow && <span className="eyebrow">{eyebrow}</span>}
-            <WordReveal as="h1" text={title} className="mt-4 block text-4xl font-extrabold leading-[1.08] text-navy-900 sm:text-5xl lg:text-6xl" />
-            {hindi && <WordReveal as="p" text={hindi} delay={0.3} className="hindi mt-3 block text-xl text-pink-600 sm:text-2xl" />}
+        <div className="mt-8 grid items-end gap-10 lg:grid-cols-12">
+          <div className={children ? "lg:col-span-7" : "lg:col-span-10"}>
+            {eyebrow && <p className="kicker"><span className="kicker-line" />{eyebrow}</p>}
+            <WordReveal as="h1" text={title} className="mt-5 block text-4xl font-extrabold leading-[1.02] text-ink sm:text-6xl lg:text-7xl" />
+            {hindi && <WordReveal as="p" text={hindi} delay={0.3} className="hindi mt-3 block text-2xl font-semibold text-magenta sm:text-3xl" />}
             {intro && (
               <Reveal delay={0.4}>
-                <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">{intro}</p>
+                <p className="mt-6 max-w-2xl text-[17px] leading-relaxed text-body sm:text-lg">{intro}</p>
               </Reveal>
             )}
           </div>

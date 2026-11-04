@@ -1,7 +1,7 @@
 import Hero from "@/components/home/Hero";
-import Credentials from "@/components/home/Credentials";
-import ConditionsGrid from "@/components/home/ConditionsGrid";
-import AboutPreview from "@/components/home/AboutPreview";
+import PosterStrip from "@/components/home/PosterStrip";
+import ConditionsIndex from "@/components/home/ConditionsIndex";
+import AboutBand from "@/components/home/AboutBand";
 import Approach from "@/components/home/Approach";
 import BreathingGuide from "@/components/home/BreathingGuide";
 import FirstVisit from "@/components/home/FirstVisit";
@@ -17,22 +17,25 @@ export default function HomePage() {
     <>
       <JsonLd data={faqLd(PUBLIC_FAQS.slice(0, 4))} />
       <Hero />
-      <Credentials />
+      <PosterStrip />
 
-      <section className="container-x section-y" id="conditions">
-        <SectionHeading
-          eyebrow="Conditions we treat"
-          title="Common. Medical. Treatable."
-          hindi="हर समस्या का नाम है — और इलाज भी।"
-          intro="Each of these is a recognised medical condition with established treatment. Tap a card to understand the signs and what a consultation involves."
-          align="center"
-        />
-        <div className="mt-12">
-          <ConditionsGrid />
+      <section id="conditions" className="rule-b">
+        <div className="container-x grid gap-10 py-16 sm:py-20 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-4">
+            <SectionHeading
+              eyebrow="Conditions we treat"
+              title={<>Common.<br />Medical.<br /><span className="text-magenta">Treatable.</span></>}
+              intro="Every condition here is a recognised medical condition with established treatment. If any of this feels familiar — to you or someone at home — a consultation is a sensible next step."
+            />
+            <p className="hindi mt-5 text-[22px] font-semibold text-ink">हर समस्या का नाम है — और इलाज भी।</p>
+          </div>
+          <div className="lg:col-span-8">
+            <ConditionsIndex />
+          </div>
         </div>
       </section>
 
-      <AboutPreview />
+      <AboutBand />
       <Approach />
       <BreathingGuide />
       <FirstVisit />

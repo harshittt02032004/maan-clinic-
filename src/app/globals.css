@@ -1,64 +1,44 @@
 @import "tailwindcss";
 
-/* ───────────────────────── Mann Clinic design tokens ─────────────────────────
-   Palette lifted from the Instagram poster set: magenta-pink hero colour,
-   deep indigo-navy for headings, blush washes, white cards.                  */
+/* ───────────────── Mann Clinic — "Poster Editorial" design tokens ─────────────────
+   Flat, printed feel taken from the clinic's own Instagram posters: magenta + blue on
+   white paper, navy ink, ruled lines, hard offset shadows. No gradients, no glass.  */
 @theme {
-  --color-pink-50: #fff1f7;
-  --color-pink-100: #ffe1ee;
-  --color-pink-200: #ffc2dc;
-  --color-pink-300: #ff93c1;
-  --color-pink-400: #f95aa0;
-  --color-pink-500: #ec2d84;
-  --color-pink-600: #d9127a;
-  --color-pink-700: #b40b63;
-  --color-pink-800: #8c0a4e;
-  --color-pink-900: #5c0633;
+  --color-magenta: #e5147e;
+  --color-magenta-deep: #b80f64;
+  --color-magenta-soft: #ff8fc8;
+  --color-blue: #1b5fae;
+  --color-ink: #14213d;
+  --color-ink-2: #2e3b63;
+  --color-body: #3b4663;
+  --color-paper: #ffffff;
+  --color-blush: #fff0f6;
+  --color-blush-2: #ffe4f1;
+  --color-rule: #d9d3da;
 
-  --color-navy-50: #eef1fb;
-  --color-navy-100: #dbe1f5;
-  --color-navy-200: #b6c2ea;
-  --color-navy-300: #8396d6;
-  --color-navy-400: #5569bd;
-  --color-navy-500: #3a4b9f;
-  --color-navy-600: #2d3a86;
-  --color-navy-700: #232d6b;
-  --color-navy-800: #1b2352;
-  --color-navy-900: #121738;
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-instrument), sans-serif;
+  --font-hindi: var(--font-baloo), var(--font-instrument), sans-serif;
 
-  --color-blush: #fff6fa;
-  --color-ink: #141a3a;
-  --color-muted: #5b6283;
-
-  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-outfit), var(--font-jakarta), sans-serif;
-  --font-hindi: var(--font-devanagari), var(--font-jakarta), sans-serif;
-
-  --radius-2xl: 1.25rem;
-  --radius-3xl: 1.75rem;
-  --radius-4xl: 2.5rem;
-
-  --shadow-soft: 0 10px 40px -12px rgba(28, 36, 100, 0.18);
-  --shadow-pink: 0 18px 48px -14px rgba(236, 45, 132, 0.45);
+  --shadow-hard: 4px 4px 0 var(--color-ink);
+  --shadow-hard-lg: 6px 6px 0 var(--color-ink);
 }
 
 :root {
-  --header-h: 76px;
   color-scheme: light;
 }
 
 html {
-  scroll-behavior: auto;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
-  @apply bg-blush text-ink font-sans antialiased;
+  @apply bg-paper text-ink font-sans antialiased;
   overflow-x: clip;
 }
 
 ::selection {
-  background: var(--color-pink-500);
+  background: var(--color-magenta);
   color: #fff;
 }
 
@@ -79,90 +59,59 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: hidden; }
 
-/* ───────────────────────── Utilities ───────────────────────── */
+/* ───────────────── Utilities ───────────────── */
 @utility container-x {
-  @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
+  @apply mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12;
 }
 
-@utility section-y {
-  @apply py-20 sm:py-24 lg:py-32;
+@utility rule-b {
+  border-bottom: 1.5px solid var(--color-ink);
+}
+@utility rule-t {
+  border-top: 1.5px solid var(--color-ink);
 }
 
-@utility text-gradient {
-  background: linear-gradient(100deg, var(--color-pink-600) 0%, var(--color-pink-400) 45%, var(--color-navy-500) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+@utility kicker {
+  @apply inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.18em] text-blue;
 }
-
-@utility eyebrow {
-  @apply inline-flex items-center gap-2 rounded-full border border-pink-200 bg-white/70 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-pink-700 backdrop-blur;
-}
-
-@utility card {
-  @apply rounded-3xl border border-white/70 bg-white/85 shadow-[var(--shadow-soft)] backdrop-blur-sm;
+@utility kicker-line {
+  @apply inline-block h-[1.5px] w-8 bg-blue sm:w-11;
 }
 
 @utility btn {
-  @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold tracking-wide transition-[transform,box-shadow,background-color,color] duration-300 will-change-transform focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-pink-300/60;
+  @apply inline-flex items-center justify-center gap-2.5 px-6 py-4 font-display text-[15px] font-bold transition-[transform,box-shadow,background-color,color] duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-magenta/40;
+}
+@utility btn-ink {
+  @apply btn bg-ink text-white hover:bg-ink-2;
+}
+@utility btn-magenta {
+  @apply btn border-[1.5px] border-ink bg-magenta text-white shadow-[var(--shadow-hard)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-hard-lg)] active:translate-x-0 active:translate-y-0 active:shadow-none;
+}
+@utility btn-line {
+  @apply btn border-[1.5px] border-ink bg-white text-ink hover:bg-blush;
+}
+@utility btn-white {
+  @apply btn bg-white text-ink hover:bg-blush;
 }
 
-@utility btn-primary {
-  @apply btn bg-pink-600 text-white shadow-[var(--shadow-pink)] hover:bg-pink-500 active:scale-[0.98];
+/* sticker: white card with a hard offset shadow, slightly rotated */
+@utility sticker {
+  @apply border-[1.5px] border-ink bg-white shadow-[var(--shadow-hard-lg)];
 }
 
-@utility btn-ghost {
-  @apply btn border-2 border-navy-200 bg-white/70 text-navy-800 hover:border-navy-400 hover:bg-white;
+/* hand-drawn underline under a word */
+.scribble {
+  position: relative;
+  display: inline-block;
 }
-
-@utility btn-navy {
-  @apply btn bg-navy-800 text-white hover:bg-navy-700;
-}
-
-/* Dotted poster-style background */
-.bg-dots {
-  background-image: radial-gradient(rgba(236, 45, 132, 0.14) 1px, transparent 1.2px);
-  background-size: 22px 22px;
-}
-
-/* Soft blobs behind heroes */
-.blob {
+.scribble > svg {
   position: absolute;
-  border-radius: 9999px;
-  filter: blur(70px);
-  pointer-events: none;
-}
-
-/* Cursor "calm halo" — new to this site */
-.halo {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  background: radial-gradient(
-    420px circle at var(--hx, 50%) var(--hy, 50%),
-    rgba(255, 147, 193, 0.22),
-    rgba(255, 147, 193, 0.08) 35%,
-    transparent 70%
-  );
-  transition: opacity 0.6s ease;
-}
-@media (hover: none) { .halo { display: none; } }
-
-/* Text-mask reveal for the confidential line */
-.mask-reveal {
-  background-image: linear-gradient(90deg, var(--color-ink) 0 50%, rgba(20, 26, 58, 0.18) 50% 100%);
-  background-size: 200% 100%;
-  background-position: var(--p, 100%) 0;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Breathing ring keyframes (used as CSS fallback) */
-@keyframes breathe {
-  0%, 100% { transform: scale(0.72); }
-  50% { transform: scale(1); }
+  left: 0;
+  right: 0;
+  bottom: -0.06em;
+  width: 100%;
+  height: 0.22em;
+  overflow: visible;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -5,23 +5,23 @@ export default function SectionHeading({
   title,
   hindi,
   intro,
-  align = "left",
   tone = "dark",
+  size = "lg",
 }: {
   eyebrow?: string;
-  title: string;
+  title: React.ReactNode;
   hindi?: string;
   intro?: string;
-  align?: "left" | "center";
   tone?: "dark" | "light";
+  size?: "lg" | "md";
 }) {
-  const center = align === "center";
+  const dark = tone === "dark";
   return (
-    <Reveal className={`${center ? "mx-auto text-center" : ""} max-w-2xl`}>
-      {eyebrow && <span className="eyebrow">{eyebrow}</span>}
-      <h2 className={`mt-4 text-3xl font-extrabold leading-[1.1] sm:text-4xl lg:text-5xl ${tone === "dark" ? "text-navy-900" : "text-white"}`}>{title}</h2>
-      {hindi && <p className={`hindi mt-2 text-lg ${tone === "dark" ? "text-pink-600" : "text-pink-200"}`}>{hindi}</p>}
-      {intro && <p className={`mt-4 text-base leading-relaxed sm:text-lg ${tone === "dark" ? "text-muted" : "text-navy-100"}`}>{intro}</p>}
+    <Reveal>
+      {eyebrow && <p className={`kicker ${dark ? "" : "!text-magenta-soft"}`}><span className={`kicker-line ${dark ? "" : "!bg-magenta-soft"}`} />{eyebrow}</p>}
+      <h2 className={`mt-4 font-extrabold leading-[1] ${size === "lg" ? "text-4xl sm:text-5xl lg:text-[56px]" : "text-3xl sm:text-4xl lg:text-[44px]"} ${dark ? "text-ink" : "text-white"}`}>{title}</h2>
+      {hindi && <p className={`hindi mt-3 text-xl font-semibold sm:text-2xl ${dark ? "text-magenta" : "text-magenta-soft"}`}>{hindi}</p>}
+      {intro && <p className={`mt-4 max-w-xl text-[16px] leading-relaxed sm:text-[17px] ${dark ? "text-body" : "text-[#C9D0E6]"}`}>{intro}</p>}
     </Reveal>
   );
 }

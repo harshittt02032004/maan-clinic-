@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { LifeBuoy, ArrowRight } from "lucide-react";
+import { ArrowRight, LifeBuoy } from "lucide-react";
 import PageHero from "@/components/layout/PageHero";
 import CtaBand from "@/components/layout/CtaBand";
 import MindMotif from "@/components/motion/MindMotif";
@@ -25,9 +25,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return { title: c.metaTitle, description: c.metaDescription, alternates: { canonical: `/${c.slug}/` } };
 }
 
+const H2 = ({ children }: { children: React.ReactNode }) => <h2 className="text-[28px] font-extrabold leading-[1.05] text-ink sm:text-[36px]">{children}</h2>;
+
 export default async function ConditionPage({ params }: { params: Promise<{ slug: string }> }) {
   const c = conditionBySlug((await params).slug);
   if (!c) notFound();
+  const idx = CONDITIONS.findIndex((o) => o.slug === c.slug);
   const others = CONDITIONS.filter((o) => o.slug !== c.slug);
 
   return (
@@ -35,33 +38,34 @@ export default async function ConditionPage({ params }: { params: Promise<{ slug
       <JsonLd data={conditionLd(c.name, `/${c.slug}/`, c.metaDescription)} />
       <JsonLd data={faqLd(c.faqs)} />
 
-      <PageHero eyebrow={c.name} title={c.h1} hindi={c.hindi} crumbs={[{ name: "Conditions", path: "/conditions/" }, { name: shortName(c), path: `/${c.slug}/` }]}>
+      <PageHero eyebrow={`Condition 0${idx + 1} · ${c.name}`} title={c.h1} hindi={c.hindi} crumbs={[{ name: "Conditions", path: "/conditions/" }, { name: shortName(c), path: `/${c.slug}/` }]}>
         <Reveal delay={0.3} className="relative">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/60 shadow-[var(--shadow-soft)] backdrop-blur">
+          <div aria-hidden className="absolute inset-0 translate-x-4 translate-y-4 bg-magenta" />
+          <div className="relative aspect-[4/3] overflow-hidden border-[1.5px] border-ink bg-white">
             <MindMotif motif={c.motif} />
-            <span className="pointer-events-none absolute bottom-4 left-5 rounded-full bg-navy-900/85 px-3 py-1 text-[11px] font-semibold text-white">{c.motifCaption}</span>
-            <span className="pointer-events-none absolute right-5 top-4 text-[10px] font-bold uppercase tracking-[0.2em] text-pink-500">move your cursor</span>
+            <span className="pointer-events-none absolute bottom-3 left-3 border border-ink bg-white px-2.5 py-1 text-[12px] font-semibold text-ink">{c.motifCaption}</span>
+            <span className="pointer-events-none absolute right-3 top-3 text-[10px] font-bold uppercase tracking-[0.18em] text-magenta">move your cursor</span>
           </div>
         </Reveal>
       </PageHero>
 
-      <article className="container-x grid gap-12 pb-10 lg:grid-cols-12">
+      <article className="container-x grid gap-12 py-12 sm:py-16 lg:grid-cols-12 lg:gap-8">
         <div className="space-y-14 lg:col-span-8">
           {c.hindiLead && (
             <Reveal>
-              <p className="hindi rounded-3xl bg-gradient-to-r from-pink-600 to-pink-500 px-6 py-5 text-xl font-bold text-white shadow-[var(--shadow-pink)] sm:text-2xl">{c.hindiLead}</p>
+              <p className="hindi border-[1.5px] border-ink bg-magenta px-6 py-5 text-[22px] font-bold leading-snug text-white shadow-[var(--shadow-hard-lg)] sm:text-[28px]">{c.hindiLead}</p>
             </Reveal>
           )}
           <Reveal>
-            <p className="text-lg leading-relaxed text-navy-800 sm:text-xl">{c.intro}</p>
+            <p className="max-w-3xl text-[19px] leading-relaxed text-ink sm:text-[22px]">{c.intro}</p>
           </Reveal>
 
           {c.treats && (
             <Reveal>
-              <h2 className="text-2xl font-extrabold text-navy-900 sm:text-3xl">{c.treats.title}</h2>
+              <H2>{c.treats.title}</H2>
               <Stagger className="mt-5 flex flex-wrap gap-2" gap={0.05}>
                 {c.treats.items.map((t) => (
-                  <Item key={t} className="rounded-full border border-navy-100 bg-white px-4 py-2 text-sm font-semibold text-navy-800">{t}</Item>
+                  <Item key={t} className="border-[1.5px] border-ink bg-white px-4 py-2 text-[14px] font-semibold text-ink">{t}</Item>
                 ))}
               </Stagger>
             </Reveal>
@@ -71,36 +75,36 @@ export default async function ConditionPage({ params }: { params: Promise<{ slug
 
           {c.honesty && (
             <Reveal>
-              <div className="rounded-3xl border-2 border-dashed border-pink-300 bg-pink-50/70 p-6 sm:p-8">
-                <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-pink-700">Honesty block</h2>
-                <p className="mt-3 text-lg font-semibold leading-relaxed text-navy-900">{c.honesty}</p>
+              <div className="border-[1.5px] border-dashed border-magenta bg-blush p-6 sm:p-8">
+                <p className="text-[12px] font-bold uppercase tracking-[0.18em] text-magenta">Our promise of honesty</p>
+                <p className="mt-3 text-[18px] font-medium leading-relaxed text-ink">{c.honesty}</p>
               </div>
             </Reveal>
           )}
 
           <Reveal>
-            <h2 className="text-2xl font-extrabold text-navy-900 sm:text-3xl">When to consult</h2>
-            <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">{c.whenToConsult}</p>
+            <H2>When to consult</H2>
+            <p className="mt-4 max-w-3xl text-[16px] leading-relaxed text-body sm:text-[17px]">{c.whenToConsult}</p>
             {c.safetyNote && (
-              <div className="mt-6 flex items-start gap-3 rounded-2xl border border-navy-100 bg-white p-4 text-sm">
-                <LifeBuoy className="mt-0.5 size-5 shrink-0 text-pink-600" />
-                <p className="text-navy-800">
-                  If you are in severe distress right now, call the Government of India's free 24x7 helpline Tele-MANAS:{" "}
-                  <a href={`tel:${CLINIC.teleManas}`} className="font-bold text-pink-700 underline underline-offset-2">{CLINIC.teleManas}</a>.
+              <div className="mt-6 flex items-start gap-3 border-[1.5px] border-ink bg-white p-4 text-[15px]">
+                <LifeBuoy className="mt-0.5 size-5 shrink-0 text-magenta" />
+                <p className="text-ink">
+                  If you are in severe distress right now, call the Government of India&apos;s free 24x7 helpline Tele-MANAS:{" "}
+                  <a href={`tel:${CLINIC.teleManas}`} className="font-bold text-magenta underline underline-offset-2">{CLINIC.teleManas}</a>.
                 </p>
               </div>
             )}
           </Reveal>
 
           <Reveal>
-            <div className="card p-7 sm:p-9">
-              <span className="eyebrow">Treatment at Mann Clinic</span>
-              <p className="mt-4 text-base leading-relaxed text-navy-800 sm:text-lg">{c.treatment}</p>
+            <div className="bg-ink p-7 text-white sm:p-9">
+              <p className="kicker !text-magenta-soft"><span className="kicker-line !bg-magenta-soft" />Treatment at Mann Clinic</p>
+              <p className="mt-4 text-[17px] leading-relaxed sm:text-[19px]">{c.treatment}</p>
             </div>
           </Reveal>
 
           <Reveal>
-            <h2 className="text-2xl font-extrabold text-navy-900 sm:text-3xl">Questions about {shortName(c).toLowerCase()}</h2>
+            <H2>Questions about {shortName(c).toLowerCase()}</H2>
             <div className="mt-5">
               <Accordion items={c.faqs} />
             </div>
@@ -108,18 +112,18 @@ export default async function ConditionPage({ params }: { params: Promise<{ slug
         </div>
 
         <aside className="lg:col-span-4">
-          <div className="sticky top-28 space-y-4">
-            <Reveal className="card p-6">
-              <p className="font-display text-lg font-extrabold text-navy-900">{CONDITION_CTA}</p>
-              <Link href="/contact/" className="btn-primary mt-4 w-full">Book an Appointment</Link>
-              <a href={`https://wa.me/${CLINIC.whatsappE164}?text=${encodeURIComponent(`Hello, I would like to consult about ${shortName(c)}.`)}`} target="_blank" rel="noopener noreferrer" className="btn-ghost mt-2 w-full">WhatsApp {CLINIC.phoneDisplay}</a>
+          <div className="sticky top-32 space-y-6">
+            <Reveal className="sticker p-6">
+              <p className="font-display text-[20px] font-extrabold leading-snug text-ink">{CONDITION_CTA}</p>
+              <Link href="/contact/" className="btn-ink mt-5 w-full">Book an appointment <ArrowRight className="size-4" /></Link>
+              <a href={`https://wa.me/${CLINIC.whatsappE164}?text=${encodeURIComponent(`Hello, I would like to consult about ${shortName(c)}.`)}`} target="_blank" rel="noopener noreferrer" className="btn-line mt-2 w-full">WhatsApp {CLINIC.phoneDisplay}</a>
             </Reveal>
-            <Reveal delay={0.1} className="card p-6">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-pink-700">Other conditions</h3>
-              <ul className="mt-3 divide-y divide-pink-50">
+            <Reveal delay={0.1}>
+              <p className="text-[12px] font-bold uppercase tracking-[0.18em] text-ink">Other conditions</p>
+              <ul className="rule-t mt-3">
                 {others.map((o) => (
-                  <li key={o.slug}>
-                    <Link href={`/${o.slug}/`} className="group flex items-center justify-between py-2.5 text-sm font-semibold text-navy-800 hover:text-pink-600">
+                  <li key={o.slug} className="border-b border-rule">
+                    <Link href={`/${o.slug}/`} className="group flex items-center justify-between py-2.5 text-[15px] font-semibold text-ink hover:text-magenta">
                       {shortName(o)} <ArrowRight className="size-4 opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100" />
                     </Link>
                   </li>

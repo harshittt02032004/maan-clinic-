@@ -1,21 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans, Outfit, Noto_Sans_Devanagari } from "next/font/google";
+import { Bricolage_Grotesque, Instrument_Sans, Baloo_2 } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import ScrollProgress from "@/components/motion/ScrollProgress";
 import MotionProvider from "@/components/motion/MotionProvider";
-import CalmHalo from "@/components/motion/CalmHalo";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import FloatingWhatsApp from "@/components/layout/FloatingWhatsApp";
 import StickyBookBar from "@/components/layout/StickyBookBar";
 import JsonLd from "@/components/ui/JsonLd";
 import { SITE_URL } from "@/content/site";
 import { clinicLd, doctorLd } from "@/lib/seo";
 
-const jakarta = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
-const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"], weight: ["500", "600", "700", "800", "900"] });
-const devanagari = Noto_Sans_Devanagari({ variable: "--font-devanagari", subsets: ["devanagari"], weight: ["400", "600", "700"] });
+const bricolage = Bricolage_Grotesque({ variable: "--font-bricolage", subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], style: ["normal"] });
+const instrument = Instrument_Sans({ variable: "--font-instrument", subsets: ["latin"], weight: ["400", "500", "600", "700"], style: ["normal", "italic"] });
+const baloo = Baloo_2({ variable: "--font-baloo", subsets: ["devanagari", "latin"], weight: ["500", "600", "700", "800"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -31,7 +29,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#ec2d84",
+  themeColor: "#e5147e",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -39,23 +37,21 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${jakarta.variable} ${outfit.variable} ${devanagari.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${bricolage.variable} ${instrument.variable} ${baloo.variable}`} suppressHydrationWarning>
       <body className="min-h-screen">
         <JsonLd data={clinicLd} />
         <JsonLd data={doctorLd} />
         <MotionProvider>
           <SmoothScroll />
           <ScrollProgress />
-          <CalmHalo />
-          <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-full focus:bg-navy-900 focus:px-4 focus:py-2 focus:text-white">
+          <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-ink focus:px-4 focus:py-2 focus:text-white">
             Skip to content
           </a>
-          <div className="relative z-[2] flex min-h-screen flex-col">
+          <div className="flex min-h-screen flex-col">
             <Navbar />
             <main id="main" className="flex-1">{children}</main>
             <Footer />
           </div>
-          <FloatingWhatsApp />
           <StickyBookBar />
         </MotionProvider>
       </body>

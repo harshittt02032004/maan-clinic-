@@ -1,13 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Play, Square } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Reveal } from "@/components/motion/Reveal";
 
 /**
- * Interactive box-breathing guide (4-4-4-4). A calm, useful moment on the page —
- * framed as a general relaxation exercise, not as treatment.
+ * Interactive box-breathing guide (4-4-4-4), drawn flat in the poster palette.
+ * Framed as a general relaxation exercise, not a treatment.
  */
 const PHASES = [
   { label: "Breathe in", hindi: "साँस अंदर", scale: 1, secs: 4 },
@@ -36,62 +35,43 @@ export default function BreathingGuide() {
   const ph = PHASES[i];
 
   return (
-    <section className="container-x section-y">
-      <div className="grid items-center gap-12 lg:grid-cols-2">
-        <Reveal>
-          <span className="eyebrow">A moment for you</span>
-          <h2 className="mt-4 text-3xl font-extrabold leading-tight text-navy-900 sm:text-4xl lg:text-5xl">
-            Before you read on, <span className="text-gradient">take one slow breath.</span>
-          </h2>
-          <p className="hindi mt-2 text-lg text-pink-600">घबराहट में सबसे पहले साँस धीमी कीजिए।</p>
-          <p className="mt-5 max-w-lg text-muted sm:text-lg">
-            Box breathing — four counts in, hold, four counts out, hold — is a simple technique many people find steadying. Press play and follow the circle. It is a general relaxation exercise, not a treatment; if restlessness or panic keeps returning, a consultation is the right next step.
+    <section className="rule-b">
+      <div className="container-x grid items-center gap-12 py-16 sm:py-20 lg:grid-cols-12 lg:gap-8">
+        <Reveal className="lg:col-span-6">
+          <p className="kicker"><span className="kicker-line" />A moment for you</p>
+          <h2 className="mt-4 text-4xl font-extrabold leading-[1] text-ink sm:text-5xl lg:text-[56px]">Before you read on, take one slow breath.</h2>
+          <p className="hindi mt-3 text-xl font-semibold text-magenta sm:text-2xl">घबराहट में सबसे पहले साँस धीमी कीजिए।</p>
+          <p className="mt-5 max-w-lg text-[16px] leading-relaxed text-body sm:text-[17px]">
+            Box breathing — four counts in, hold, four counts out, hold — is a simple technique many people find steadying. Press start and follow the circle. It is a general relaxation exercise, not a treatment; if restlessness or panic keeps returning, a consultation is the right next step.
           </p>
-          <button
-            type="button"
-            onClick={() => setOn((v) => !v)}
-            aria-pressed={on}
-            className={`${on ? "btn-navy" : "btn-primary"} mt-8`}
-          >
-            {on ? <><Square className="size-4" /> Stop</> : <><Play className="size-4" /> Start breathing</>}
+          <button type="button" onClick={() => setOn((v) => !v)} aria-pressed={on} className={`${on ? "btn-line" : "btn-ink"} mt-8`}>
+            {on ? "Stop" : "Start breathing"}
           </button>
         </Reveal>
 
-        <Reveal delay={0.15} className="relative mx-auto grid aspect-square w-full max-w-md place-items-center">
-          {/* rings */}
-          {[0, 1, 2].map((r) => (
-            <motion.div
-              key={r}
-              aria-hidden
-              className="absolute rounded-full border border-pink-300/60"
-              style={{ inset: `${r * 9}%` }}
-              animate={{ scale: on ? ph.scale * (1 + r * 0.04) : 0.78, opacity: on ? 0.9 - r * 0.25 : 0.4 }}
-              transition={{ duration: on ? ph.secs : 1.2, ease: "easeInOut" }}
-            />
-          ))}
-          <motion.div
-            aria-hidden
-            className="absolute inset-[18%] rounded-full bg-gradient-to-br from-pink-400 via-pink-500 to-navy-500 shadow-[var(--shadow-pink)]"
-            animate={{ scale: on ? ph.scale : 0.72 }}
-            transition={{ duration: on ? ph.secs : 1.2, ease: "easeInOut" }}
-          />
-          <div className="relative text-center text-white">
-            <AnimatePresence mode="wait">
-              <motion.div key={on ? ph.label + i : "idle"} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.3 }}>
-                {on ? (
-                  <>
-                    <div className="font-display text-5xl font-black tabular-nums">{count}</div>
-                    <div className="mt-1 text-sm font-bold uppercase tracking-[0.2em]">{ph.label}</div>
-                    <div className="hindi text-sm text-pink-100">{ph.hindi}</div>
-                  </>
-                ) : (
-                  <>
-                    <div className="hindi font-display text-4xl font-bold">मन</div>
-                    <div className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-pink-100">press start</div>
-                  </>
-                )}
-              </motion.div>
-            </AnimatePresence>
+        <Reveal delay={0.15} className="lg:col-span-5 lg:col-start-8">
+          <div className="relative mx-auto grid aspect-square w-full max-w-sm place-items-center border-[1.5px] border-ink bg-blush">
+            <span className="absolute left-4 top-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">4 · 4 · 4 · 4</span>
+            <motion.div aria-hidden className="absolute inset-[12%] rounded-full border-[1.5px] border-ink" animate={{ scale: on ? ph.scale : 0.78 }} transition={{ duration: on ? ph.secs : 1, ease: "easeInOut" }} />
+            <motion.div aria-hidden className="absolute inset-[20%] rounded-full bg-magenta" animate={{ scale: on ? ph.scale : 0.72 }} transition={{ duration: on ? ph.secs : 1, ease: "easeInOut" }} />
+            <div className="relative text-center text-white">
+              <AnimatePresence mode="wait">
+                <motion.div key={on ? ph.label + i : "idle"} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.25 }}>
+                  {on ? (
+                    <>
+                      <div className="font-display text-5xl font-extrabold tabular-nums">{count}</div>
+                      <div className="mt-1 text-[12px] font-bold uppercase tracking-[0.18em]">{ph.label}</div>
+                      <div className="hindi text-[14px]">{ph.hindi}</div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="hindi text-4xl font-bold">मन</div>
+                      <div className="mt-1 text-[11px] font-bold uppercase tracking-[0.18em]">press start</div>
+                    </>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
         </Reveal>
       </div>

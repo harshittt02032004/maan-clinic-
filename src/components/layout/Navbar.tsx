@@ -4,87 +4,73 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, Menu, X, Phone } from "lucide-react";
+import { ArrowRight, X } from "lucide-react";
 import Logo from "./Logo";
-import { NAV, telLink } from "@/content/site";
+import { CLINIC, NAV, telLink } from "@/content/site";
 import { CONDITIONS, shortName } from "@/content/conditions";
 import { EASE } from "@/lib/motion";
 
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [dd, setDd] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    setOpen(false);
-    setDd(false);
-  }, [pathname]);
-
+  useEffect(() => { setOpen(false); setDd(false); }, [pathname]);
   useEffect(() => {
     document.documentElement.classList.toggle("lenis-stopped", open);
     document.body.style.overflow = open ? "hidden" : "";
   }, [open]);
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href.replace(/\/$/, "")));
+  const inConditions = CONDITIONS.some((c) => pathname.startsWith(`/${c.slug}`)) || pathname.startsWith("/conditions");
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
-      <motion.div
-        animate={{ paddingTop: scrolled ? 8 : 16, paddingBottom: scrolled ? 8 : 16 }}
-        transition={{ duration: 0.4, ease: EASE }}
-        className="container-x"
-      >
-        <div
-          className={`flex items-center justify-between gap-4 rounded-full border px-3 pl-4 transition-all duration-500 sm:px-4 sm:pl-6 ${
-            scrolled ? "border-white/80 bg-white/90 py-1 shadow-[var(--shadow-soft)] backdrop-blur-xl" : "border-white/70 bg-white/70 py-1.5 backdrop-blur-md"
-          }`}
-        >
-          <Logo variant="full" height={scrolled ? 62 : 78} priority />
+    <header className="sticky top-0 z-50 bg-paper">
+      {/* utility strip */}
+      <div className="bg-ink text-white">
+        <div className="container-x flex items-center justify-between gap-4 py-1.5 text-[12px] tracking-wide sm:text-[13px]">
+          <p className="flex items-center gap-2 truncate">
+            <span className="size-2 shrink-0 rounded-full bg-magenta" />
+            <span className="truncate">Free 24x7 mental-health helpline Tele-MANAS <a href={`tel:${CLINIC.teleManas}`} className="font-semibold underline-offset-2 hover:underline">{CLINIC.teleManas}</a></span>
+          </p>
+          <p className="hidden gap-6 md:flex"><span>{CLINIC.timings}</span><span>Civil Lines, Raebareli</span></p>
+        </div>
+      </div>
 
-          <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
-            {NAV.map((item) =>
+      <div className="rule-b">
+        <div className={`container-x flex items-center justify-between gap-6 transition-[padding] duration-300 ${scrolled ? "py-2" : "py-3 sm:py-4"}`}>
+          <Logo variant="full" height={scrolled ? 52 : 64} priority />
+
+          <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
+            {NAV.filter((n) => n.href !== "/").map((item) =>
               "dropdown" in item && item.dropdown ? (
                 <div key={item.href} className="relative" onMouseEnter={() => setDd(true)} onMouseLeave={() => setDd(false)}>
-                  <Link
-                    href={item.href}
-                    className={`inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors ${isActive(item.href) || CONDITIONS.some((c) => pathname.startsWith(`/${c.slug}`)) ? "text-pink-600" : "text-navy-800 hover:text-pink-600"}`}
-                    aria-haspopup="true"
-                    aria-expanded={dd}
-                  >
+                  <Link href={item.href} aria-haspopup="true" aria-expanded={dd} className={`relative py-2 text-[15px] font-medium ${inConditions ? "text-magenta" : "text-ink hover:text-magenta"}`}>
                     {item.label}
-                    <ChevronDown className={`size-4 transition-transform ${dd ? "rotate-180" : ""}`} />
+                    <span className={`absolute inset-x-0 -bottom-0.5 h-[2px] bg-magenta transition-transform duration-300 ${inConditions || dd ? "scale-x-100" : "scale-x-0"}`} style={{ transformOrigin: "left" }} />
                   </Link>
                   <AnimatePresence>
                     {dd && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 8, scale: 0.98 }}
-                        transition={{ duration: 0.25, ease: EASE }}
-                        className="absolute left-1/2 top-full w-[560px] -translate-x-1/2 pt-3"
-                      >
-                        <div className="card grid grid-cols-2 gap-1 p-3">
+                      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 6 }} transition={{ duration: 0.2, ease: EASE }} className="absolute left-1/2 top-full w-[620px] -translate-x-1/2 pt-4">
+                        <div className="sticker grid grid-cols-2 bg-paper p-2">
                           {CONDITIONS.map((c, i) => (
-                            <motion.div key={c.slug} initial={{ opacity: 0, x: -6 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.03 * i }}>
-                              <Link href={`/${c.slug}/`} className="group flex items-start gap-3 rounded-2xl px-3 py-2.5 transition-colors hover:bg-pink-50">
-                                <span className="mt-1.5 size-2 shrink-0 rounded-full bg-pink-300 transition-all group-hover:scale-150 group-hover:bg-pink-600" />
-                                <span>
-                                  <span className="block text-sm font-bold text-navy-900">{shortName(c)}</span>
-                                  <span className="hindi block text-xs text-muted">{c.hindi}</span>
-                                </span>
-                              </Link>
-                            </motion.div>
+                            <Link key={c.slug} href={`/${c.slug}/`} className="group flex items-baseline gap-3 px-3 py-2.5 hover:bg-blush">
+                              <span className="font-display text-xs font-bold text-magenta">0{i + 1}</span>
+                              <span>
+                                <span className="block font-display text-[15px] font-bold text-ink">{shortName(c)}</span>
+                                <span className="hindi block text-[13px] text-body">{c.hindi}</span>
+                              </span>
+                            </Link>
                           ))}
-                          <Link href="/conditions/" className="col-span-2 mt-1 rounded-2xl bg-navy-900 px-4 py-2.5 text-center text-xs font-bold uppercase tracking-[0.18em] text-white hover:bg-navy-800">
-                            All conditions
+                          <Link href="/conditions/" className="col-span-2 mt-1 flex items-center justify-between bg-ink px-4 py-3 font-display text-sm font-bold text-white hover:bg-ink-2">
+                            All conditions <ArrowRight className="size-4" />
                           </Link>
                         </div>
                       </motion.div>
@@ -92,71 +78,52 @@ export default function Navbar() {
                   </AnimatePresence>
                 </div>
               ) : (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`relative rounded-full px-4 py-2 text-sm font-semibold transition-colors ${isActive(item.href) ? "text-pink-600" : "text-navy-800 hover:text-pink-600"}`}
-                >
+                <Link key={item.href} href={item.href} className={`relative py-2 text-[15px] font-medium ${isActive(item.href) ? "text-magenta" : "text-ink hover:text-magenta"}`}>
                   {item.label}
-                  {isActive(item.href) && <motion.span layoutId="nav-dot" className="absolute -bottom-0.5 left-1/2 size-1.5 -translate-x-1/2 rounded-full bg-pink-500" />}
+                  <span className={`absolute inset-x-0 -bottom-0.5 h-[2px] bg-magenta transition-transform duration-300 ${isActive(item.href) ? "scale-x-100" : "scale-x-0"}`} style={{ transformOrigin: "left" }} />
                 </Link>
               ),
             )}
           </nav>
 
-          <div className="flex items-center gap-2">
-            <a href={telLink} className="btn-ghost hidden !px-4 !py-2.5 xl:inline-flex" aria-label="Call Mann Clinic">
-              <Phone className="size-4" /> Call
-            </a>
-            <Link href="/contact/" className="btn-primary hidden !px-5 !py-2.5 md:inline-flex">
-              Book Appointment
+          <div className="flex items-center gap-3 sm:gap-4">
+            <a href={telLink} className="hidden font-display text-[15px] font-semibold text-ink hover:text-magenta xl:block">{CLINIC.phoneDisplay}</a>
+            <Link href="/contact/" className="btn-magenta !px-4 !py-2.5 text-[13px] sm:!px-5 sm:!py-3.5 sm:text-[15px]">
+              <span className="sm:hidden">Book</span><span className="hidden sm:inline">Book an appointment</span> <ArrowRight className="size-4" />
             </Link>
-            <button
-              type="button"
-              onClick={() => setOpen((v) => !v)}
-              aria-expanded={open}
-              aria-controls="mobile-nav"
-              aria-label={open ? "Close menu" : "Open menu"}
-              className="grid size-11 place-items-center rounded-full border border-navy-100 bg-white text-navy-900 lg:hidden"
-            >
-              {open ? <X className="size-5" /> : <Menu className="size-5" />}
+            <button type="button" onClick={() => setOpen((v) => !v)} aria-expanded={open} aria-controls="mobile-nav" aria-label={open ? "Close menu" : "Open menu"} className="grid size-11 place-items-center border-[1.5px] border-ink bg-white lg:hidden">
+              {open ? <X className="size-5" /> : (
+                <span className="flex flex-col items-end gap-[5px]"><span className="h-[2px] w-5 bg-ink" /><span className="h-[2px] w-5 bg-ink" /><span className="h-[2px] w-3 bg-magenta" /></span>
+              )}
             </button>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       <AnimatePresence>
         {open && (
-          <motion.div
-            id="mobile-nav"
-            initial={{ opacity: 0, clipPath: "circle(0% at calc(100% - 40px) 40px)" }}
-            animate={{ opacity: 1, clipPath: "circle(150% at calc(100% - 40px) 40px)" }}
-            exit={{ opacity: 0, clipPath: "circle(0% at calc(100% - 40px) 40px)" }}
-            transition={{ duration: 0.55, ease: EASE }}
-            className="fixed inset-0 z-[-1] flex flex-col bg-navy-900 pt-28 text-white lg:hidden"
-            data-lenis-prevent
-          >
-            <div className="container-x flex-1 overflow-y-auto pb-10">
-              <ul className="space-y-1">
+          <motion.div id="mobile-nav" initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3, ease: EASE }} className="fixed inset-0 z-40 overflow-y-auto bg-paper pt-[124px] lg:hidden" data-lenis-prevent>
+            <div className="container-x py-6">
+              <ul className="rule-t">
                 {NAV.map((item, i) => (
-                  <motion.li key={item.href} initial={{ opacity: 0, x: -18 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 + i * 0.06 }}>
-                    <Link href={item.href} className="block py-3 font-display text-3xl font-extrabold tracking-tight">
-                      {item.label}
+                  <motion.li key={item.href} initial={{ opacity: 0, x: -14 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.05 + i * 0.05 }} className="border-b border-rule">
+                    <Link href={item.href} className="flex items-center justify-between py-4 font-display text-2xl font-bold text-ink">
+                      {item.label} <ArrowRight className="size-5 text-magenta" />
                     </Link>
                   </motion.li>
                 ))}
               </ul>
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.45 }} className="mt-6 grid grid-cols-2 gap-2 border-t border-white/10 pt-6">
-                {CONDITIONS.map((c) => (
-                  <Link key={c.slug} href={`/${c.slug}/`} className="rounded-2xl bg-white/5 px-3 py-3 text-sm font-semibold text-pink-100 hover:bg-white/10">
-                    {shortName(c)}
-                  </Link>
+              <p className="kicker mt-8"><span className="kicker-line" />Conditions</p>
+              <ul className="mt-3 grid grid-cols-2 gap-x-6">
+                {CONDITIONS.map((c, i) => (
+                  <li key={c.slug} className="border-b border-rule">
+                    <Link href={`/${c.slug}/`} className="flex items-baseline gap-2 py-3 text-[15px] font-semibold text-ink">
+                      <span className="font-display text-xs text-magenta">0{i + 1}</span>{shortName(c)}
+                    </Link>
+                  </li>
                 ))}
-              </motion.div>
-              <div className="mt-8 flex flex-col gap-3">
-                <Link href="/contact/" className="btn-primary">Book Appointment</Link>
-                <a href={telLink} className="btn-ghost !border-white/20 !bg-white/5 !text-white"><Phone className="size-4" /> Call the clinic</a>
-              </div>
+              </ul>
+              <a href={telLink} className="btn-line mt-8 w-full">Call {CLINIC.phoneDisplay}</a>
             </div>
           </motion.div>
         )}
