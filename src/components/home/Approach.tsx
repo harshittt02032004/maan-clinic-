@@ -1,27 +1,36 @@
-import { Reveal, Stagger, Item } from "@/components/motion/Reveal";
+"use client";
+
+import { HeartHandshake, LockKeyhole, Microscope, Sun } from "lucide-react";
+import { Stagger, Item } from "@/components/motion/Reveal";
+import SectionHeading from "@/components/ui/SectionHeading";
+import ThoughtUntangle from "@/components/motion/ThoughtUntangle";
 import { PILLARS } from "@/content/about";
+
+const ICONS = { HeartHandshake, LockKeyhole, Microscope, Sun };
 
 export default function Approach() {
   return (
-    <section className="rule-b">
-      <div className="container-x flex flex-col gap-9 py-16 sm:py-20">
-        <Reveal className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
-          <h2 className="max-w-2xl text-4xl font-extrabold leading-[1] text-ink sm:text-5xl lg:text-[56px]">Four things you can expect in every consultation.</h2>
-          <p className="hindi text-xl font-semibold text-magenta sm:text-2xl lg:text-right">हर बात सुनी जाएगी —<br />बिना जल्दबाज़ी, बिना फ़ैसले।</p>
-        </Reveal>
-        <Stagger className="grid border-[1.5px] border-ink sm:grid-cols-2 lg:grid-cols-4" gap={0.08}>
-          {PILLARS.map((p, i) => (
-            <Item
-              key={p.t}
-              className={`group flex flex-col gap-10 p-6 transition-colors duration-300 hover:bg-blush sm:p-7 ${i < 3 ? "border-b-[1.5px] border-ink sm:border-b-0 lg:border-r-[1.5px]" : ""} ${i < 2 ? "sm:border-b-[1.5px] lg:border-b-0" : ""} ${i === 0 || i === 2 ? "sm:border-r-[1.5px]" : ""} ${i === 3 ? "bg-blush" : ""}`}
-            >
-              <span className="font-display text-[44px] font-extrabold leading-none text-magenta transition-transform duration-300 group-hover:-translate-y-1">0{i + 1}</span>
-              <div>
-                <h3 className="font-display text-[22px] font-bold text-ink">{p.t}</h3>
-                <p className="mt-1.5 text-[15px] leading-relaxed text-body">{p.d}</p>
-              </div>
-            </Item>
-          ))}
+    <section className="relative overflow-hidden bg-navy-900 text-white">
+      <div className="blob -right-32 top-0 size-[28rem] bg-pink-600/30" />
+      <div className="container-x section-y">
+        <SectionHeading eyebrow="Our approach" title="Four things you can expect in every consultation." hindi="हर बात सुनी जाएगी — बिना जल्दबाज़ी, बिना फ़ैसले।" tone="light" align="center" />
+
+        <ThoughtUntangle className="mx-auto my-10 max-w-4xl" />
+
+        <Stagger className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {PILLARS.map((p, i) => {
+            const Icon = ICONS[p.icon];
+            return (
+              <Item key={p.t} className="group relative rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur transition-colors duration-500 hover:bg-white/10">
+                <span className="absolute right-5 top-5 text-xs font-bold text-pink-300/60">0{i + 1}</span>
+                <span className="grid size-12 place-items-center rounded-2xl bg-pink-500/20 text-pink-200 transition-all duration-500 group-hover:bg-pink-500 group-hover:text-white">
+                  <Icon className="size-5" />
+                </span>
+                <h3 className="mt-6 font-display text-xl font-extrabold">{p.t}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-navy-100">{p.d}</p>
+              </Item>
+            );
+          })}
         </Stagger>
       </div>
     </section>

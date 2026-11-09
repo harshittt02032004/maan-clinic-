@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/layout/PageHero";
 import CtaBand from "@/components/layout/CtaBand";
-import ConditionsIndex from "@/components/home/ConditionsIndex";
+import ConditionsGrid from "@/components/home/ConditionsGrid";
 
 export const metadata: Metadata = {
   title: "Mental Health Conditions We Treat | Mann Clinic, Raebareli",
@@ -21,8 +21,8 @@ export default function ConditionsPage() {
         crumbs={[{ name: "Conditions", path: "/conditions/" }]}
         compact
       />
-      <section className="container-x py-12 sm:py-16">
-        <ConditionsIndex />
+      <section className="container-x pb-10 pt-4">
+        <ConditionsGrid />
       </section>
       <CtaBand />
     </>

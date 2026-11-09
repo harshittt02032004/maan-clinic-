@@ -18,25 +18,24 @@ export default function AboutPage() {
   return (
     <>
       <PageHero eyebrow="Consultant Psychiatrist" title={ABOUT.h1} hindi="मनोचिकित्सक · रायबरेली" intro={ABOUT.intro} crumbs={[{ name: "About Dr. Jain", path: "/about-dr-mohit-jain/" }]}>
-        <DoctorPortrait compact className="mx-auto w-full max-w-sm" />
+        <DoctorPortrait className="mx-auto w-full max-w-xs lg:max-w-sm" />
       </PageHero>
 
-      <section className="rule-b">
-        <div className="container-x py-4">
-          <Reveal>
-            <p className="text-[14px] font-medium text-ink">{ABOUT.designation}</p>
-          </Reveal>
-        </div>
+      <section className="container-x pb-6">
+        <Reveal>
+          <p className="rounded-2xl border border-pink-100 bg-white/70 px-5 py-3 text-sm font-semibold text-navy-800">{ABOUT.designation}</p>
+        </Reveal>
       </section>
 
       <Journey />
 
-      <section className="bg-ink text-white">
-        <div className="container-x grid items-center gap-12 py-16 sm:py-20 lg:grid-cols-12 lg:gap-8">
+      <section className="relative overflow-hidden bg-navy-900 py-20 text-white sm:py-28">
+        <div className="blob -right-20 top-0 size-96 bg-pink-600/30" />
+        <div className="container-x grid items-center gap-12 lg:grid-cols-12">
           <Reveal className="lg:col-span-7">
-            <p className="kicker !text-magenta-soft"><span className="kicker-line !bg-magenta-soft" />Philosophy</p>
-            <blockquote className="mt-6 font-display text-[30px] font-semibold leading-[1.15] sm:text-[40px] lg:text-[48px]">“{ABOUT.quote}”</blockquote>
-            <p className="mt-6 text-[13px] font-bold uppercase tracking-[0.18em] text-magenta-soft">— Dr. Mohit Jain</p>
+            <span className="eyebrow !border-white/20 !bg-white/10 !text-pink-200">Philosophy</span>
+            <blockquote className="mt-6 font-display text-3xl font-bold leading-snug sm:text-4xl lg:text-5xl">“{ABOUT.quote}”</blockquote>
+            <p className="mt-6 text-sm font-bold uppercase tracking-[0.2em] text-pink-200">— Dr. Mohit Jain</p>
           </Reveal>
           <div className="lg:col-span-5">
             <CredentialList />

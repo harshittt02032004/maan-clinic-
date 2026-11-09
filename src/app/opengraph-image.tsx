@@ -8,15 +8,15 @@ export const contentType = "image/png";
 export default function OgImage() {
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", background: "#ffffff", fontFamily: "sans-serif", position: "relative", border: "16px solid #14213D" }}>
-        <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: 360, background: "#E5147E" }} />
-        <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 72, width: 840 }}>
-          <div style={{ fontSize: 22, letterSpacing: 4, color: "#1B5FAE", fontWeight: 700 }}>PSYCHIATRY · RAEBARELI</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-            <div style={{ fontSize: 76, fontWeight: 800, color: "#14213D", lineHeight: 1.0 }}>Mental health is health.</div>
-            <div style={{ fontSize: 28, color: "#3B4663" }}>Dr. Mohit Jain · MD Psychiatry (KGMU) · Mann Clinic</div>
+      <div style={{ width: "100%", height: "100%", display: "flex", background: "linear-gradient(135deg,#fff1f7 0%,#ffffff 55%,#dbe1f5 100%)", fontFamily: "sans-serif", position: "relative" }}>
+        <div style={{ position: "absolute", left: -120, top: -120, width: 520, height: 520, borderRadius: 999, background: "rgba(236,45,132,0.25)", filter: "blur(40px)" }} />
+        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", padding: 80, gap: 18 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <div style={{ width: 64, height: 64, borderRadius: 20, background: "#ec2d84", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 34, fontWeight: 700 }}>म</div>
+            <div style={{ fontSize: 34, fontWeight: 800, color: "#121738" }}>Mann Clinic</div>
           </div>
-          <div style={{ fontSize: 22, color: "#14213D", fontWeight: 700 }}>Mann Clinic — We care about your feelings..</div>
+          <div style={{ fontSize: 68, fontWeight: 800, color: "#121738", lineHeight: 1.05, maxWidth: 900 }}>Mental health is health.</div>
+          <div style={{ fontSize: 30, color: "#5b6283", maxWidth: 900 }}>Dr. Mohit Jain · MD Psychiatry (KGMU) · Confidential, evidence-based care in Raebareli</div>
         </div>
       </div>
     ),
