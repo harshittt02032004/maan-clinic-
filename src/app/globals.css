@@ -192,6 +192,12 @@ html.lenis, html.lenis body { height: auto; }
   to { stroke-dashoffset: 0; }
 }
 
+/* Very subtle float for the illustration in the Conditions tabs panel */
+@keyframes cond-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
 /* Hand-drawn principle circles: thicker stroke + a second, accent pen-pass on hover */
 .hand-circle .main {
   transition: stroke-width 0.35s ease;

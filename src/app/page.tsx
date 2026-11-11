@@ -1,6 +1,6 @@
 import Hero from "@/components/home/Hero";
 import Credentials from "@/components/home/Credentials";
-import ConditionsGrid from "@/components/home/ConditionsGrid";
+import ConditionsTabs from "@/components/home/ConditionsTabs";
 import AboutPreview from "@/components/home/AboutPreview";
 import Approach from "@/components/home/Approach";
 import BreathingGuide from "@/components/home/BreathingGuide";
@@ -25,11 +25,11 @@ export default function HomePage() {
           eyebrow="Conditions we treat"
           title="Common. Medical. Treatable."
           hindi="हर समस्या का नाम है — और इलाज भी।"
-          intro="Each of these is a recognised medical condition with established treatment. Tap a card to understand the signs and what a consultation involves."
+          intro="Each of these is a recognised medical condition with established treatment."
           align="center"
         />
         <div className="mt-12">
-          <ConditionsGrid />
+          <ConditionsTabs />
         </div>
       </section>
 
