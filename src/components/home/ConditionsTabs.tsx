@@ -46,6 +46,16 @@ export default function ConditionsTabs() {
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const listRef = useRef<HTMLDivElement>(null);
 
+  // The tab list is vertical from lg and a horizontal scroller below it: tell assistive tech which.
+  const [vertical, setVertical] = useState(true);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const sync = () => setVertical(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
   const g = CONDITION_GROUPS[group];
   const c = g.conditions[Math.min(picked, g.conditions.length - 1)];
 
@@ -92,7 +102,7 @@ export default function ConditionsTabs() {
           ref={listRef}
           role="tablist"
           aria-label="Condition categories"
-          aria-orientation="vertical"
+          aria-orientation={vertical ? "vertical" : "horizontal"}
           onKeyDown={onKey}
           className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-2 [scrollbar-width:none] lg:mx-0 lg:flex-col lg:gap-1.5 lg:overflow-visible lg:rounded-3xl lg:border lg:border-navy-100/70 lg:bg-white/70 lg:p-3 lg:pb-3 lg:shadow-[var(--shadow-soft)] [&::-webkit-scrollbar]:hidden"
         >
@@ -109,7 +119,7 @@ export default function ConditionsTabs() {
                 aria-controls={`${baseId}-panel`}
                 tabIndex={active ? 0 : -1}
                 onClick={() => select(i)}
-                className={`group relative flex shrink-0 cursor-pointer items-center gap-3 whitespace-nowrap rounded-2xl border px-4 py-3 text-left text-sm font-bold transition-colors duration-300 lg:w-full lg:whitespace-normal lg:px-4 lg:py-3.5 lg:text-[15px] ${
+                className={`group relative isolate flex shrink-0 cursor-pointer items-center gap-3 whitespace-nowrap rounded-2xl border px-4 py-3 text-left text-sm font-bold transition-colors duration-300 lg:w-full lg:whitespace-normal lg:px-4 lg:py-3.5 lg:text-[15px] ${
                   active ? "border-pink-100 text-navy-900 lg:border-transparent" : "border-navy-100/70 bg-white/70 text-navy-700 hover:border-pink-200 hover:text-navy-900 lg:border-transparent lg:bg-transparent"
                 } focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-pink-300/50`}
               >
@@ -143,16 +153,52 @@ export default function ConditionsTabs() {
           id={`${baseId}-panel`}
           role="tabpanel"
           aria-labelledby={`${baseId}-tab-${g.id}`}
-          className="relative min-h-[420px] overflow-hidden rounded-3xl border border-navy-100/70 bg-white p-6 shadow-[var(--shadow-soft)] sm:p-8 lg:p-10"
+          className="relative grid overflow-hidden rounded-3xl border border-navy-100/70 bg-white p-6 shadow-[var(--shadow-soft)] sm:p-8 lg:p-10"
         >
+          {/* Invisible copies of every condition's layout, stacked in the same grid cell as the live content:
+              the panel is always exactly as tall as the tallest one, so switching never moves the page. */}
+          <div aria-hidden="true" className="pointer-events-none invisible col-start-1 row-start-1 grid">
+            {CONDITION_GROUPS.flatMap((gr) =>
+              gr.conditions.map((cond) => (
+                <div key={`${gr.id}-${cond.name}`} className="col-start-1 row-start-1 flex flex-col">
+                  <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-7">
+                    <div className="size-24 shrink-0 sm:size-28" />
+                    <div className="min-w-0">
+                      <span className="text-[11px] font-bold uppercase tracking-[0.18em]">00 / 00</span>
+                      <h3 className="mt-2 font-display text-2xl font-extrabold leading-tight sm:text-3xl">{gr.name}</h3>
+                      <p className="mt-3 max-w-xl text-[15px] leading-relaxed">{gr.intro}</p>
+                    </div>
+                  </div>
+                  <div className="mt-7 flex flex-wrap gap-2.5">
+                    {gr.conditions.map((x) => (
+                      <span key={x.name} className="inline-flex min-h-11 items-center rounded-full border px-4 py-2 text-sm font-bold">{x.name}</span>
+                    ))}
+                  </div>
+                  <div className="mt-6 flex flex-1 flex-col justify-between gap-6 border-t pt-6">
+                    <div>
+                      <h4 className="font-display text-lg font-extrabold">{cond.name}</h4>
+                      <p className="mt-2 max-w-2xl text-[15px] leading-relaxed">{cond.description}</p>
+                    </div>
+                    <div>
+                      <span className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-bold">
+                        Learn more about {cond.name}
+                        <span className="size-4" />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )),
+            )}
+          </div>
+
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={g.id}
               initial={fade.initial}
               animate={fade.animate}
               exit={fade.exit}
-              transition={{ duration: D * 0.7, ease: EASE }}
-              className="flex h-full flex-col"
+              transition={{ duration: reduce ? 0 : D * 0.7, ease: EASE }}
+              className="col-start-1 row-start-1 flex h-full flex-col"
             >
               <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-7">
                 <motion.div
@@ -199,7 +245,7 @@ export default function ConditionsTabs() {
                       initial={reduce ? false : { opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: D * 0.8, ease: EASE, delay: 0.18 + i * 0.07 }}
-                      className={`cursor-pointer rounded-full border px-4 py-2 text-sm font-bold transition-[border-color,background-color,color,box-shadow] duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-pink-300/50 ${
+                      className={`inline-flex min-h-11 cursor-pointer items-center rounded-full border px-4 py-2 text-sm font-bold transition-[border-color,background-color,color,box-shadow] duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-pink-300/50 ${
                         on ? "border-pink-500 bg-pink-500 text-white shadow-[0_8px_20px_-10px_rgba(236,45,132,0.6)]" : "border-navy-100 bg-white text-navy-800 hover:border-pink-300 hover:text-pink-700"
                       }`}
                     >
@@ -217,7 +263,7 @@ export default function ConditionsTabs() {
                     initial={reduce ? { opacity: 1 } : { opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={reduce ? { opacity: 1 } : { opacity: 0 }}
-                    transition={{ duration: D * 0.6, ease: EASE }}
+                    transition={{ duration: reduce ? 0 : D * 0.6, ease: EASE }}
                   >
                     <h4 className="font-display text-lg font-extrabold text-navy-900">{c.name}</h4>
                     <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-muted">{c.description}</p>
