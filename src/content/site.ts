@@ -44,8 +44,9 @@ export const CLINIC = {
   fee: null as string | null,
   instagram: "https://www.instagram.com/drmohitjainpsy/",
   facebook: "https://www.facebook.com/drmohitjainpsy/",
-  /** Drop the doctor's photo at public/images/dr-mohit-jain.jpg and set this to that path. */
-  doctorPhoto: null as string | null,
+  /** Supplied by the user 2026-11-11; 4:5 crop of the desk shot (scripts/doctor-photo.mjs). */
+  doctorPhoto: "/images/dr-mohit-jain.webp" as string | null,
+  doctorPhotoWide: "/images/dr-mohit-jain-desk.webp",
   teleManas: "14416",
 } as const;
 
