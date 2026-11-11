@@ -12,6 +12,8 @@ export default function PageHero({
   intro,
   crumbs,
   children,
+  below,
+  align = "end",
   compact = false,
 }: {
   eyebrow?: string;
@@ -19,7 +21,12 @@ export default function PageHero({
   hindi?: string;
   intro?: string;
   crumbs: { name: string; path: string }[];
+  /** Right-hand column (form, photo…). */
   children?: React.ReactNode;
+  /** Content that sits in the left column directly under the heading. On phones it follows `children`. */
+  below?: React.ReactNode;
+  /** "end" lines the heading up with the bottom of the right column (default); "start" pins it to the top. */
+  align?: "end" | "start";
   compact?: boolean;
 }) {
   return (
@@ -37,7 +44,8 @@ export default function PageHero({
             </span>
           ))}
         </nav>
-        <div className="mt-6 grid items-end gap-10 lg:grid-cols-12">
+        {/* with `below`, row 2 takes any spare height so the content under the heading never drifts away from it */}
+        <div className={`mt-6 grid gap-x-10 gap-y-8 lg:grid-cols-12 ${below ? "lg:grid-rows-[auto_1fr]" : ""} ${align === "start" ? "items-start" : "items-end"}`}>
           <div className={children ? "lg:col-span-7" : "lg:col-span-9"}>
             {eyebrow && <span className="eyebrow">{eyebrow}</span>}
             <WordReveal as="h1" text={title} className="mt-4 block text-4xl font-extrabold leading-[1.08] text-navy-900 sm:text-5xl lg:text-6xl" />
@@ -48,7 +56,10 @@ export default function PageHero({
               </Reveal>
             )}
           </div>
-          {children && <div className="lg:col-span-5">{children}</div>}
+          {/* DOM order is heading → right column → below, so phones see the form before the details;
+              from lg the right column spans both rows and `below` sits under the heading */}
+          {children && <div className={below ? "lg:col-span-5 lg:col-start-8 lg:row-span-2 lg:row-start-1" : "lg:col-span-5"}>{children}</div>}
+          {below && <div className="lg:col-span-7 lg:col-start-1 lg:row-start-2">{below}</div>}
         </div>
       </div>
     </section>
