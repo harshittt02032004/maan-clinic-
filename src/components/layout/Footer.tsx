@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MapPin, Phone, MessageCircle, Clock, LifeBuoy } from "lucide-react";
 import Logo from "./Logo";
+import GsapStagger from "@/components/motion/GsapStagger";
 import { CLINIC, CRISIS_LINE, DISCLAIMER, fullAddress, telLink, whatsappLink } from "@/content/site";
 import { CONDITIONS, shortName } from "@/content/conditions";
 
@@ -21,7 +22,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="container-x relative grid gap-12 py-16 md:grid-cols-12">
+      <GsapStagger className="container-x relative grid gap-12 py-16 md:grid-cols-12" gap={0.14}>
         <div className="md:col-span-5">
           <div className="inline-block rounded-3xl bg-white p-4 shadow-[var(--shadow-soft)]">
             <Logo variant="full" height={150} />
@@ -61,7 +62,7 @@ export default function Footer() {
             <Link href="/contact/" className="hover:text-white">Contact</Link>
           </nav>
         </div>
-      </div>
+      </GsapStagger>
 
       <div className="container-x relative border-t border-white/10 py-6 text-xs leading-relaxed text-navy-300">
         <p>{DISCLAIMER}</p>

@@ -31,17 +31,17 @@ export default function LangFlip({ hindi, english, className = "" }: { hindi: st
       onClick={() => setEn((v) => !v)}
       style={{ perspective: 900 }}
     >
-      <AnimatePresence mode="popLayout" initial={false}>
+      {/* first load and every language change: each word rises out of its own mask (no flipping, no bounce) */}
+      <AnimatePresence mode="popLayout">
         <motion.span key={text} className={`block ${en ? "" : "hindi"}`} aria-hidden>
           {words.map((w, i) => (
-            <span key={i} className="inline-block overflow-hidden align-bottom pb-[0.1em] -mb-[0.1em]">
+            <span key={i} className="inline-block overflow-hidden align-bottom pb-[0.14em] -mb-[0.14em]">
               <motion.span
                 className="inline-block will-change-transform"
-                initial={{ rotateX: -92, y: "40%", opacity: 0 }}
-                animate={{ rotateX: 0, y: 0, opacity: 1 }}
-                exit={{ rotateX: 92, y: "-40%", opacity: 0 }}
-                transition={{ duration: 0.55, ease: EASE, delay: i * 0.05 }}
-                style={{ transformOrigin: "50% 100%" }}
+                initial={{ y: "115%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "-115%" }}
+                transition={{ duration: 0.85, ease: EASE, delay: 0.15 + i * 0.09 }}
               >
                 {w}
               </motion.span>

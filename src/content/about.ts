@@ -57,16 +57,16 @@ export const CREDENTIAL_TILES = [
 ] as const;
 
 export const PILLARS = [
-  { t: "Compassionate", d: "You will be heard, not hurried. Your story matters as much as your symptoms.", icon: "HeartHandshake" },
-  { t: "Confidential", d: "What you share in the consultation room stays in the consultation room.", icon: "LockKeyhole" },
+  { t: "Compassionate Care", d: "You will be heard, not hurried. Your story matters as much as your symptoms.", icon: "HeartHandshake" },
+  { t: "Confidential & Safe", d: "What you share in the consultation room stays in the consultation room.", icon: "LockKeyhole" },
   { t: "Evidence-Based", d: "Diagnosis and treatment grounded in science and international best practice — not guesswork.", icon: "Microscope" },
   { t: "Stigma-Free", d: "Seeing a psychiatrist is healthcare, exactly like seeing a cardiologist or an orthopaedic surgeon. Nothing more, nothing less.", icon: "Sun" },
 ] as const;
 
 export const FIRST_VISIT = [
-  { t: "An unhurried conversation", d: "You talk about what you're going through, in your own words — Hindi or English, whatever feels natural." },
-  { t: "A clear explanation", d: "Dr. Jain explains what's happening in simple language. No jargon, no labels, no lectures." },
-  { t: "A plan made with you", d: "Therapy, medication if needed, and follow-ups — decided together with you, never imposed on you." },
+  { t: "Conversation", d: "We listen to your concerns and understand your needs." },
+  { t: "Explanation", d: "We discuss your concerns and explain the available treatment options in simple language." },
+  { t: "Shared plan", d: "We work together to create a personalised care plan." },
 ];
 
 export const HOW_TO_BOOK = [

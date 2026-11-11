@@ -1,37 +1,94 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
-import { Reveal, Stagger, Item } from "@/components/motion/Reveal";
+import { useEffect, useRef, useState } from "react";
 import SectionHeading from "@/components/ui/SectionHeading";
+import { initGsap, NO_REDUCE } from "@/lib/gsap";
 import { FIRST_VISIT } from "@/content/about";
 
-/** Three steps on a path that draws itself as you scroll down the section. */
-export default function FirstVisit({ steps = FIRST_VISIT, eyebrow = "Your first visit", title = "What actually happens in the room.", hindi = "पहली मुलाक़ात में क्या होता है?" }: { steps?: { t: string; d: string }[]; eyebrow?: string; title?: string; hindi?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 70%", "end 60%"] });
-  const line = useSpring(scrollYProgress, { stiffness: 80, damping: 22 });
+/**
+ * Steps on a thin line that draws itself when the section comes into view:
+ * left to right on tablets/desktops, top to bottom on phones. The numbered circles,
+ * then each title and description, appear one after the other as the line reaches them.
+ */
+export default function FirstVisit({
+  steps = FIRST_VISIT,
+  eyebrow = "Your first visit",
+  title = "What actually happens in the room.",
+  hindi = "पहली मुलाक़ात में क्या होता है?",
+}: {
+  steps?: { t: string; d: string }[];
+  eyebrow?: string;
+  title?: string;
+  hindi?: string;
+}) {
+  const root = useRef<HTMLOListElement>(null);
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const { gsap } = initGsap();
+    const mm = gsap.matchMedia();
+    mm.add(NO_REDUCE, () => {
+      const el = root.current;
+      if (!el) return;
+      const q = gsap.utils.selector(el);
+      const dots = q("[data-dot]");
+      const texts = q("[data-text]");
+      const lineH = q("[data-line-h]");
+      const lineV = q("[data-line-v]");
+
+      gsap.set(dots, { scale: 0.7, opacity: 0 });
+      gsap.set(texts, { y: 16, opacity: 0 });
+      gsap.set(lineH, { scaleX: 0, transformOrigin: "0% 50%" });
+      gsap.set(lineV, { scaleY: 0, transformOrigin: "50% 0%" });
+
+      const STEP = 0.95;
+      const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 75%", once: true } });
+      dots.forEach((_, i) => {
+        const t = i * STEP;
+        tl.to(dots[i], { scale: 1, opacity: 1, duration: 0.55, ease: "power2.out" }, t);
+        tl.to(texts[i], { y: 0, opacity: 1, duration: 0.75, ease: "power3.out" }, t + 0.15);
+        tl.call(() => setActive(i), undefined, t + 0.2);
+        if (lineH[i]) tl.to(lineH[i], { scaleX: 1, duration: STEP, ease: "none" }, t + 0.1);
+        if (lineV[i]) tl.to(lineV[i], { scaleY: 1, duration: STEP, ease: "none" }, t + 0.1);
+      });
+    });
+    return () => mm.revert();
+  }, []);
 
   return (
     <section className="container-x section-y">
       <SectionHeading eyebrow={eyebrow} title={title} hindi={hindi} align="center" />
-      <div ref={ref} className="relative mx-auto mt-14 max-w-3xl">
-        <div aria-hidden className="absolute left-6 top-2 bottom-2 w-px bg-pink-100 sm:left-1/2" />
-        <motion.div aria-hidden style={{ scaleY: line }} className="absolute left-6 top-2 bottom-2 w-px origin-top bg-gradient-to-b from-pink-500 to-navy-500 sm:left-1/2" />
-        <Stagger className="space-y-10" gap={0.15}>
-          {steps.map((s, i) => (
-            <Item key={s.t} className={`relative flex gap-6 pl-16 sm:w-1/2 sm:pl-0 ${i % 2 ? "sm:ml-auto sm:pl-12" : "sm:pr-12 sm:text-right"}`}>
-              <span className={`absolute left-0 top-0 grid size-12 place-items-center rounded-full bg-navy-900 font-display text-sm font-extrabold text-white ring-8 ring-blush sm:left-auto ${i % 2 ? "sm:-left-6" : "sm:-right-6"}`}>
+
+      <ol ref={root} className="mx-auto mt-14 grid max-w-5xl gap-10 md:grid-cols-3 md:gap-x-8">
+        {steps.map((s, i) => {
+          const last = i === steps.length - 1;
+          const on = active === i;
+          return (
+            <li key={s.t} className="relative flex gap-5 md:flex-col md:items-center md:gap-5 md:text-center" onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)}>
+              {/* connector to the next step: vertical on phones, horizontal from md */}
+              {!last && (
+                <>
+                  <span aria-hidden data-line-v className="absolute left-7 top-7 h-[calc(100%+2.5rem)] w-px bg-pink-300 md:hidden" />
+                  <span aria-hidden data-line-h className="absolute left-1/2 top-7 hidden h-px w-[calc(100%+2rem)] bg-pink-300 md:block" />
+                </>
+              )}
+              <span
+                data-dot
+                className={`relative z-10 grid size-14 shrink-0 place-items-center rounded-full border font-display text-sm font-extrabold transition-colors duration-500 ${
+                  on ? "border-accent bg-accent text-white" : "border-pink-200 bg-white text-navy-900"
+                }`}
+              >
                 0{i + 1}
               </span>
-              <Reveal className="card p-6">
-                <h3 className="font-display text-xl font-extrabold text-navy-900">{s.t}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted sm:text-base">{s.d}</p>
-              </Reveal>
-            </Item>
-          ))}
-        </Stagger>
-      </div>
+              <div data-text className="pt-1.5 md:pt-0">
+                <p className={`text-[11px] font-bold uppercase tracking-[0.22em] transition-colors duration-500 ${on ? "text-pink-600" : "text-muted"}`}>Step 0{i + 1}</p>
+                <h3 className="mt-1 font-display text-xl font-extrabold uppercase tracking-wide text-navy-900">{s.t}</h3>
+                <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted sm:text-base md:mx-auto">{s.d}</p>
+              </div>
+            </li>
+          );
+        })}
+      </ol>
     </section>
   );
 }

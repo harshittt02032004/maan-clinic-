@@ -30,6 +30,11 @@
   --color-ink: #141a3a;
   --color-muted: #5b6283;
 
+  /* One accent for the hand-drawn circles, timeline and breathing ring.
+     The brand has no green, so it follows the existing pink; change this one line to re-tone them. */
+  --color-accent: var(--color-pink-500);
+  --color-accent-soft: var(--color-pink-200);
+
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-outfit), var(--font-jakarta), sans-serif;
   --font-hindi: var(--font-devanagari), var(--font-jakarta), sans-serif;
@@ -159,10 +164,49 @@ html.lenis, html.lenis body { height: auto; }
   color: transparent;
 }
 
-/* Breathing ring keyframes (used as CSS fallback) */
-@keyframes breathe {
-  0%, 100% { transform: scale(0.72); }
-  50% { transform: scale(1); }
+/* Mask wrapper SplitText puts around each headline line: keeps descenders (g, y, p) un-clipped */
+.split-mask {
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+
+/* Buttons: smooth colour change, arrow glides on hover */
+.btn svg {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.btn:hover > svg.lucide-arrow-right,
+.btn:hover > svg.lucide-arrow-up-right {
+  transform: translateX(4px);
+}
+
+/* Icons draw themselves (strokes only). Paths in a 24px icon are all shorter than 70 units. */
+.icon-draw svg * {
+  stroke-dasharray: 70;
+  stroke-dashoffset: 0;
+}
+.group:hover .icon-draw svg * {
+  animation: icon-draw 0.9s cubic-bezier(0.45, 0, 0.55, 1) both;
+}
+@keyframes icon-draw {
+  from { stroke-dashoffset: 70; }
+  to { stroke-dashoffset: 0; }
+}
+
+/* Hand-drawn principle circles: thicker stroke + a second, accent pen-pass on hover */
+.hand-circle .main {
+  transition: stroke-width 0.35s ease;
+}
+.hand-circle .retrace {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.group:hover .hand-circle .main,
+.group:focus-within .hand-circle .main {
+  stroke-width: 3.6;
+}
+.group:hover .hand-circle .retrace,
+.group:focus-within .hand-circle .retrace {
+  opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {

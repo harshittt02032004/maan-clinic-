@@ -34,14 +34,17 @@ export default function DoctorPortrait({ className = "" }: { className?: string 
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
       />
 
+      {/* gentle mask reveal: the photo is uncovered from the bottom up while it settles from a slight zoom */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, delay: 0.35 }}
+        initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
+        animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
+        transition={{ duration: 1.3, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
         className="relative aspect-[4/5] overflow-hidden rounded-t-[999px] rounded-b-[2.5rem]"
       >
         {CLINIC.doctorPhoto ? (
-          <Image src={CLINIC.doctorPhoto} alt={`${CLINIC.doctor}, Consultant Psychiatrist, Mann Clinic Raebareli`} fill priority sizes="(min-width:1024px) 40vw, 90vw" className="object-cover object-top" />
+          <motion.div className="absolute inset-0" initial={{ scale: 1.12 }} animate={{ scale: 1 }} transition={{ duration: 1.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}>
+            <Image src={CLINIC.doctorPhoto} alt={`${CLINIC.doctor}, Consultant Psychiatrist, Mann Clinic Raebareli`} fill priority sizes="(min-width:1024px) 40vw, 90vw" className="object-cover object-top" />
+          </motion.div>
         ) : (
           <div className="absolute inset-0 grid place-items-end bg-gradient-to-b from-pink-100 via-pink-200/70 to-pink-500/60">
             <svg viewBox="0 0 200 250" className="w-full text-navy-900/15" aria-hidden>

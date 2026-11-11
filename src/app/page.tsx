@@ -7,6 +7,7 @@ import BreathingGuide from "@/components/home/BreathingGuide";
 import FirstVisit from "@/components/home/FirstVisit";
 import HomeFaq from "@/components/home/HomeFaq";
 import CtaBand from "@/components/layout/CtaBand";
+import DrawDivider from "@/components/motion/DrawDivider";
 import SectionHeading from "@/components/ui/SectionHeading";
 import JsonLd from "@/components/ui/JsonLd";
 import { faqLd } from "@/lib/seo";
@@ -32,10 +33,13 @@ export default function HomePage() {
         </div>
       </section>
 
+      <DrawDivider />
       <AboutPreview />
       <Approach />
       <BreathingGuide />
+      <DrawDivider />
       <FirstVisit />
+      <DrawDivider />
       <HomeFaq />
       <CtaBand />
     </>
