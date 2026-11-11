@@ -3,7 +3,8 @@ import { MapPin, Clock, Phone, MessageCircle, FileText, IndianRupee } from "luci
 import PageHero from "@/components/layout/PageHero";
 import FirstVisit from "@/components/home/FirstVisit";
 import BookingComposer from "@/components/contact/BookingComposer";
-import { Reveal, Stagger, Item } from "@/components/motion/Reveal";
+import { MapBackdrop, MapFooter } from "@/components/contact/MapBackdrop";
+import { Stagger, Item } from "@/components/motion/Reveal";
 import { CLINIC, fullAddress, telLink, whatsappLink } from "@/content/site";
 import { HOW_TO_BOOK } from "@/content/about";
 
@@ -32,6 +33,8 @@ export default function ContactPage() {
         crumbs={[{ name: "Contact", path: "/contact/" }]}
         compact
         align="start"
+        background={<MapBackdrop />}
+        footer={<MapFooter />}
         below={
           <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1" gap={0.07}>
             {details.map((d) => (
@@ -47,28 +50,14 @@ export default function ContactPage() {
                 </span>
               </Item>
             ))}
-            <Item className="flex items-start gap-3 rounded-2xl border border-dashed border-navy-200 p-5 text-sm text-navy-800 sm:col-span-2 lg:col-span-1">
+            <Item className="flex items-start gap-3 rounded-2xl border border-dashed border-navy-200 bg-white/85 p-5 text-sm text-navy-800 backdrop-blur-sm sm:col-span-2 lg:col-span-1">
               <FileText className="mt-0.5 size-5 shrink-0 text-pink-600" />
               <span><strong>What to bring:</strong> any previous prescriptions, reports, and a list of medicines you currently take. Nothing else is needed — just yourself.</span>
             </Item>
           </Stagger>
         }
       >
-        <div className="space-y-6">
-          <BookingComposer />
-          <Reveal delay={0.15}>
-            <div className="card overflow-hidden p-2">
-              <iframe
-                title="Mann Clinic on Google Maps"
-                src={CLINIC.mapsEmbed}
-                className="h-[340px] w-full rounded-[1.25rem]"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                allowFullScreen
-              />
-            </div>
-          </Reveal>
-        </div>
+        <BookingComposer />
       </PageHero>
 
       <FirstVisit steps={HOW_TO_BOOK} eyebrow="How to book" title="Three steps. That's it." hindi="तीन आसान कदम" />
