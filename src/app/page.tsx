@@ -6,6 +6,7 @@ import Approach from "@/components/home/Approach";
 import BreathingGuide from "@/components/home/BreathingGuide";
 import FirstVisit from "@/components/home/FirstVisit";
 import HomeFaq from "@/components/home/HomeFaq";
+import ReelsSection from "@/components/media/ReelsSection";
 import CtaBand from "@/components/layout/CtaBand";
 import DrawDivider from "@/components/motion/DrawDivider";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -39,6 +40,7 @@ export default function HomePage() {
       <BreathingGuide />
       <DrawDivider />
       <FirstVisit />
+      <ReelsSection />
       <DrawDivider />
       <HomeFaq />
       <CtaBand />

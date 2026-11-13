@@ -6,6 +6,8 @@ import DoctorPortrait from "@/components/ui/DoctorPortrait";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Journey from "@/components/about/Journey";
 import Timeline from "@/components/about/Timeline";
+import ClinicGallery from "@/components/about/ClinicGallery";
+import ReelsSection from "@/components/media/ReelsSection";
 import { Reveal, Stagger, Item } from "@/components/motion/Reveal";
 import { ABOUT } from "@/content/about";
 import { CLINIC } from "@/content/site";
@@ -30,6 +32,8 @@ export default function AboutPage() {
       </section>
 
       <Journey />
+
+      <ClinicGallery />
 
       <section className="container-x section-y">
         <SectionHeading eyebrow="Clinical interests" title={"The concerns Dr. Jain consults for."} hindi="हर उम्र के लिए" />
@@ -61,6 +65,8 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      <ReelsSection intro="Hear Dr. Jain explain common concerns in his own words — from the clinic's Instagram." />
 
       <CtaBand headline={ABOUT.ctaLine} hindi={null} />
     </>
