@@ -9,7 +9,7 @@ Next.js 16 App Router · Tailwind v4 · framer-motion · Lenis · lucide-react. 
 - Dr. Jain must approve every page before it goes live.
 
 ## Where things live
-- `src/content/site.ts` — clinic facts (phone, address, hours, maps, registration placeholders). The degree title is two constants at the top (`DEGREE`, `DEGREE_SHORT`); the hero, footer, tiles, metadata, OG image and schema read from them.
+- `src/content/site.ts` — clinic facts (phone, address, hours, maps, registration UP Medical Council 64417). The degree title is two constants at the top (`DEGREE`, `DEGREE_SHORT`); the hero, footer, tiles, metadata, OG image and schema read from them.
 - `src/content/conditions.ts` — 10 condition pages (verbatim doc copy + motif per page; v4 added child & adolescent and memory/headache/seizure). `safetyNote` is the Tele-MANAS text for that page.
 - `src/content/conditionGroups.ts` — grouping for the homepage tabs.
 - `src/content/faq.ts` — FAQs; `pending: true` hides unconfirmed answers from page + schema.
@@ -18,7 +18,7 @@ Next.js 16 App Router · Tailwind v4 · framer-motion · Lenis · lucide-react. 
 - `next.config.ts` — CSP + security headers. Keep `frame-src` in sync with the Maps embed.
 
 ## Still to confirm with Dr. Jain
-Registration number + council · exact MD title as on the degree certificate and registration (site shows MD (Neuro-Psychiatry) per v4) · building / landmark line of the Gora Bazar address · regular Saturday hours · fee (optional) · online consultation (FAQ) · Agra visiting schedule · professional memberships (About) · which number is primary (GBP 98894 97550 vs poster 79918 22067).
+Exact MD title as on the degree certificate and registration (site shows MD (Neuro-Psychiatry) per v4) · building / landmark line of the Gora Bazar address · regular Saturday hours · fee (optional) · online consultation (FAQ) · Agra visiting schedule · professional memberships (About) · which number is primary (GBP 98894 97550 vs poster 79918 22067).
 
 <!-- BEGIN:nextjs-agent-rules -->
 

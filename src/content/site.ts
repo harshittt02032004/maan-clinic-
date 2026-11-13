@@ -27,9 +27,9 @@ export const CLINIC = {
   degreeShort: DEGREE_SHORT,
   certification: "ECFMG Certified (USA)",
   university: "KGMU, Lucknow",
-  /** TODO(confirm): registration number + council — permitted info under NMC rules. */
-  registration: "[Registration Number]",
-  council: "[Medical Council]",
+  /** Supplied by the owner 2026-11-13 as "UP MCI 64417" (permitted info under NMC rules). */
+  registration: "64417",
+  council: "UP Medical Council",
   /**
    * Main line per the Google Business Profile (98894 97550). The newer Instagram
    * posters print 79-9182-2067 as Call/WhatsApp — kept as `altPhone`.
