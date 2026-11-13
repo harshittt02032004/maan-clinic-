@@ -1,7 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { MessageCircle, CalendarCheck } from "lucide-react";
 import Magnetic from "@/components/motion/Magnetic";
 import { Reveal } from "@/components/motion/Reveal";
@@ -17,31 +14,21 @@ export default function CtaBand({
   return (
     <section className="container-x section-y !pb-8">
       <Reveal>
-        <div className="relative overflow-hidden rounded-[2.5rem] bg-navy-900 px-6 py-14 text-center text-white sm:px-12 sm:py-20">
-          {/* breathing aurora */}
-          <motion.div
-            aria-hidden
-            className="absolute -left-20 -top-20 size-[26rem] rounded-full bg-pink-600/40 blur-3xl"
-            animate={{ scale: [1, 1.25, 1], x: [0, 40, 0] }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            aria-hidden
-            className="absolute -bottom-24 -right-16 size-[22rem] rounded-full bg-navy-400/40 blur-3xl"
-            animate={{ scale: [1.2, 1, 1.2], y: [0, -30, 0] }}
-            transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-          />
+        <div className="relative isolate overflow-hidden rounded-[2rem] bg-navy-900 px-5 py-12 text-center text-white sm:rounded-[2.5rem] sm:px-12 sm:py-20">
+          {/* two soft colour washes: still on phones, a slow drift from md up */}
+          <div aria-hidden className="blob -left-20 -top-20 size-[26rem] bg-pink-600/60 md:motion-safe:animate-[wash-a_12s_ease-in-out_infinite]" />
+          <div aria-hidden className="blob -bottom-24 -right-16 size-[22rem] bg-navy-400/60 md:motion-safe:animate-[wash-b_14s_ease-in-out_infinite]" />
           <div className="relative">
-            <h2 className="mx-auto max-w-3xl text-3xl font-extrabold leading-tight sm:text-5xl">{headline}</h2>
+            <h2 className="mx-auto max-w-3xl text-[1.7rem] font-extrabold leading-tight sm:text-5xl">{headline}</h2>
             {hindi && <p className="hindi mt-4 text-lg text-pink-200 sm:text-2xl">{hindi}</p>}
-            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Magnetic>
-                <Link href="/contact/" className="btn-primary">
+            <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:mt-9 sm:flex-row sm:items-center">
+              <Magnetic className="block sm:inline-block">
+                <Link href="/contact/" className="btn-primary w-full sm:w-auto">
                   <CalendarCheck className="size-4" /> Book an Appointment
                 </Link>
               </Magnetic>
-              <Magnetic>
-                <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="btn-ghost !border-white/25 !bg-white/10 !text-white hover:!bg-white/20">
+              <Magnetic className="block sm:inline-block">
+                <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="btn-ghost w-full !border-white/25 !bg-white/10 !text-white hover:!bg-white/20 sm:w-auto">
                   <MessageCircle className="size-4" /> WhatsApp {CLINIC.phoneDisplay}
                 </a>
               </Magnetic>

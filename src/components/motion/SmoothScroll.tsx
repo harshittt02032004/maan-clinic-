@@ -12,6 +12,9 @@ export default function SmoothScroll() {
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Phones and tablets already scroll smoothly with their own momentum; running Lenis on top only adds a
+    // permanent animation loop. Keep native touch scrolling there.
+    if (window.matchMedia("(pointer: coarse)").matches) return;
     const lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 1, syncTouch: false });
     lenisInstance = lenis;
     let rafId = 0;

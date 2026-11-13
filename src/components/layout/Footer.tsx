@@ -7,7 +7,7 @@ import { CONDITIONS, shortName } from "@/content/conditions";
 
 export default function Footer() {
   return (
-    <footer className="relative mt-10 overflow-hidden bg-navy-900 text-navy-100">
+    <footer className="relative isolate mt-10 overflow-hidden bg-navy-900 text-navy-100">
       <div className="blob -left-32 top-10 size-96 bg-pink-600/25" />
       <div className="blob -right-24 bottom-0 size-80 bg-navy-500/40" />
 
@@ -17,17 +17,17 @@ export default function Footer() {
           <span className="grid size-9 shrink-0 place-items-center rounded-full bg-pink-500/20 text-pink-200"><LifeBuoy className="size-4" /></span>
           <p className="text-navy-100/90">
             {CRISIS_LINE.replace("14416.", "")}
-            <a href={`tel:${CLINIC.teleManas}`} className="ml-1 rounded-full bg-white px-3 py-1 font-bold text-navy-900">Tele-MANAS {CLINIC.teleManas}</a>
+            {/* the number is one unbreakable pill: on its own line on phones, inline from sm */}
+            <a href={`tel:${CLINIC.teleManas}`} className="mt-3 block w-fit whitespace-nowrap rounded-full bg-white px-4 py-1.5 font-bold text-navy-900 sm:ml-1 sm:mt-0 sm:inline-block sm:px-3 sm:py-1">Tele-MANAS {CLINIC.teleManas}</a>
           </p>
         </div>
       </div>
 
       <GsapStagger className="container-x relative grid gap-12 py-16 md:grid-cols-12" gap={0.14}>
         <div className="md:col-span-5">
-          <div className="inline-block rounded-3xl bg-white p-4 shadow-[var(--shadow-soft)]">
-            <Logo variant="full" height={150} />
-          </div>
-          <p className="mt-5 max-w-sm text-sm leading-relaxed text-navy-200">{CLINIC.tagline}</p>
+          {/* reversed logo straight on the navy: no white box */}
+          <Logo variant="full" tone="light" height={148} mobileHeight={124} />
+          <p className="mt-4 max-w-sm text-sm leading-relaxed text-navy-200">{CLINIC.tagline}</p>
           <p className="mt-6 text-sm font-semibold text-white">
             {CLINIC.doctor} — {CLINIC.qualifications}
           </p>
@@ -64,7 +64,8 @@ export default function Footer() {
         </div>
       </GsapStagger>
 
-      <div className="container-x relative border-t border-white/10 py-6 text-xs leading-relaxed text-navy-300">
+      {/* extra bottom room on phones so the fixed Call / WhatsApp / Book bar never covers the last lines */}
+      <div className="container-x relative border-t border-white/10 pb-28 pt-6 text-xs leading-relaxed text-navy-300 md:pb-6">
         <p>{DISCLAIMER}</p>
         <p className="mt-3 flex flex-wrap items-center justify-between gap-2">
           <span>© {new Date().getFullYear()} Mann Clinic, Raebareli. All rights reserved.</span>

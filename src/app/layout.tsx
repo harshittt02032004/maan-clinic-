@@ -41,6 +41,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${jakarta.variable} ${outfit.variable} ${devanagari.variable}`} suppressHydrationWarning>
       <body className="min-h-screen">
+        {/* scroll reveals start hidden and are shown by a script; without JavaScript show everything */}
+        <noscript>
+          <style>{`[data-reveal],[data-reveal-item]{opacity:1!important}`}</style>
+        </noscript>
         <JsonLd data={clinicLd} />
         <JsonLd data={doctorLd} />
         <MotionProvider>

@@ -15,13 +15,15 @@ export default function MindMotif({ motif, className = "" }: { motif: Motif; cla
     const canvas = ref.current!;
     const ctx = canvas.getContext("2d")!;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const touch = window.matchMedia("(hover: none)").matches;
     let w = 0, h = 0, dpr = 1, raf = 0, t = 0;
+    let visible = true; // the loop pauses while the canvas is scrolled out of view
     const ptr = { x: -9999, y: -9999, calm: 0 };
 
     const PINK = "236,45,132", NAVY = "58,75,159";
 
     const resize = () => {
-      dpr = Math.min(2, window.devicePixelRatio || 1);
+      dpr = Math.min(touch ? 1.5 : 2, window.devicePixelRatio || 1);
       const r = canvas.getBoundingClientRect();
       w = r.width; h = r.height;
       canvas.width = w * dpr; canvas.height = h * dpr;
@@ -37,7 +39,15 @@ export default function MindMotif({ motif, className = "" }: { motif: Motif; cla
     };
     const onLeave = () => { ptr.x = -9999; ptr.y = -9999; };
     canvas.addEventListener("pointermove", onMove);
+    canvas.addEventListener("pointerdown", onMove); // a tap counts on touch screens
     canvas.addEventListener("pointerleave", onLeave);
+    canvas.addEventListener("pointercancel", onLeave);
+
+    const io = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible && !raf && !reduced) raf = requestAnimationFrame(draw);
+    });
+    io.observe(canvas);
 
     // seeded particles
     const rnd = (() => { let s = 7; return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646; })();
@@ -48,7 +58,8 @@ export default function MindMotif({ motif, className = "" }: { motif: Motif; cla
       return Math.max(0, 1 - d / rad);
     };
 
-    const draw = () => {
+    function draw() {
+      raf = 0;
       t += reduced ? 0 : 0.016;
       ctx.clearRect(0, 0, w, h);
       const inside = ptr.x > 0 && ptr.x < w && ptr.y > 0 && ptr.y < h;
@@ -176,17 +187,21 @@ export default function MindMotif({ motif, className = "" }: { motif: Motif; cla
           break;
         }
       }
-      if (!reduced) raf = requestAnimationFrame(draw);
-    };
+      if (!reduced && visible) raf = requestAnimationFrame(draw);
+    }
     draw();
 
     return () => {
       cancelAnimationFrame(raf);
+      io.disconnect();
       ro.disconnect();
       canvas.removeEventListener("pointermove", onMove);
+      canvas.removeEventListener("pointerdown", onMove);
       canvas.removeEventListener("pointerleave", onLeave);
+      canvas.removeEventListener("pointercancel", onLeave);
     };
   }, [motif]);
 
-  return <canvas ref={ref} aria-hidden className={`block h-full w-full touch-none ${className}`} />;
+  // touch-pan-y: a finger that starts on the drawing still scrolls the page
+  return <canvas ref={ref} aria-hidden className={`block h-full w-full touch-pan-y ${className}`} />;
 }

@@ -1,37 +1,72 @@
 "use client";
 
-import { motion, type HTMLMotionProps } from "framer-motion";
-import { fadeUp, stagger, VIEWPORT } from "@/lib/motion";
+import { useEffect, useRef, type CSSProperties, type HTMLAttributes } from "react";
 
-type Props = HTMLMotionProps<"div"> & { delay?: number };
+/**
+ * Fade-up on scroll, done by the browser instead of by JavaScript.
+ *
+ * One shared IntersectionObserver marks an element `data-in` the first time it enters the viewport; a CSS
+ * keyframe animation (opacity + transform, see `reveal-up` in globals.css) does the rest on the compositor.
+ * Previously each of the ~30 reveals on a page was animated by a script on every frame, which is what made
+ * scrolling stutter on phones. Use `Stagger` around several `Item`s for a cascade.
+ */
+let shared: IntersectionObserver | null = null;
+function observer() {
+  if (!shared) {
+    shared = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          (e.target as HTMLElement).dataset.in = "1";
+          shared!.unobserve(e.target);
+        }
+      },
+      { rootMargin: "-12% 0px -8% 0px" },
+    );
+  }
+  return shared;
+}
 
-/** Fade-up-with-blur on scroll. Use `Stagger` around several `Item`s for a cascade. */
-export function Reveal({ delay = 0, children, ...rest }: Props) {
+function useReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = observer();
+    io.observe(el);
+    return () => io.unobserve(el);
+  }, []);
+  return ref;
+}
+
+type DivProps = HTMLAttributes<HTMLDivElement>;
+
+export function Reveal({ delay = 0, style, children, ...rest }: DivProps & { delay?: number }) {
+  const ref = useReveal();
   return (
-    <motion.div
-      initial="hidden"
-      whileInView="show"
-      viewport={VIEWPORT}
-      variants={{ ...fadeUp, show: { ...fadeUp.show, transition: { ...fadeUp.show.transition, delay } } }}
-      {...rest}
-    >
+    <div ref={ref} data-reveal style={delay ? ({ ...style, "--rd": `${delay}s` } as CSSProperties) : style} {...rest}>
       {children}
-    </motion.div>
+    </div>
   );
 }
 
-export function Stagger({ children, gap = 0.08, ...rest }: HTMLMotionProps<"div"> & { gap?: number }) {
+export function Stagger({ gap = 0.08, style, children, ...rest }: DivProps & { gap?: number }) {
+  const ref = useReveal();
+  // number the items once so each can wait its turn (CSS reads --i)
+  useEffect(() => {
+    ref.current?.querySelectorAll<HTMLElement>(":scope > [data-reveal-item]").forEach((el, i) => el.style.setProperty("--i", String(i)));
+  });
   return (
-    <motion.div initial="hidden" whileInView="show" viewport={VIEWPORT} variants={stagger(gap)} {...rest}>
+    <div ref={ref} data-stagger style={{ ...style, "--rg": `${gap}s` } as CSSProperties} {...rest}>
       {children}
-    </motion.div>
+    </div>
   );
 }
 
-export function Item({ children, ...rest }: HTMLMotionProps<"div">) {
+export function Item({ children, ...rest }: DivProps) {
   return (
-    <motion.div variants={fadeUp} {...rest}>
+    <div data-reveal-item {...rest}>
       {children}
-    </motion.div>
+    </div>
   );
 }

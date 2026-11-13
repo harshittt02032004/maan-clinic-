@@ -90,7 +90,7 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 @utility section-y {
-  @apply py-20 sm:py-24 lg:py-32;
+  @apply py-14 sm:py-24 lg:py-32;
 }
 
 @utility text-gradient {
@@ -109,7 +109,7 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 @utility btn {
-  @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold tracking-wide transition-[transform,box-shadow,background-color,color] duration-300 will-change-transform focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-pink-300/60;
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold tracking-wide transition-[transform,box-shadow,background-color,color] duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-pink-300/60;
 }
 
 @utility btn-primary {
@@ -130,12 +130,88 @@ html.lenis, html.lenis body { height: auto; }
   background-size: 22px 22px;
 }
 
-/* Soft blobs behind heroes */
+/* Soft colour washes behind heroes.
+   Drawn with a radial mask instead of `filter: blur(70px)`: same soft edge, but the browser no longer has to
+   re-blur a 400px layer while scrolling (that was the single biggest cost on phones).
+   z-index -1 keeps them BEHIND the text; the parent section must be `isolate` so they stay above its background. */
 .blob {
   position: absolute;
+  z-index: -1;
   border-radius: 9999px;
-  filter: blur(70px);
   pointer-events: none;
+  -webkit-mask-image: radial-gradient(closest-side, #000 0%, rgba(0, 0, 0, 0.6) 40%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 0%, rgba(0, 0, 0, 0.6) 40%, transparent 100%);
+}
+
+/* Scroll reveals (components/motion/Reveal.tsx). Hidden until the shared observer sets data-in, then a one-off
+   compositor animation. `backwards` (not `both`): once it has played the element is back to its normal styles,
+   so hover lifts and other transitions on the same element keep working. */
+[data-reveal]:not([data-in]),
+[data-stagger]:not([data-in]) > [data-reveal-item] {
+  opacity: 0;
+}
+[data-reveal][data-in] {
+  animation: reveal-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--rd, 0s) backwards;
+}
+[data-stagger][data-in] > [data-reveal-item] {
+  animation: reveal-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * var(--rg, 0.08s) + 0.05s) backwards;
+}
+@keyframes reveal-up {
+  from { opacity: 0; transform: translate3d(0, 28px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+/* The two floating shapes behind the doctor's portrait */
+@keyframes float-a {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes float-b {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(10px) rotate(15deg); }
+}
+
+/* Hero "Start here" button: a short attention pulse when the line settles (3 times, then still) */
+@keyframes cta-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Slow drift for the CTA band's two washes: desktop only, never on phones */
+@keyframes wash-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(40px, 0, 0) scale(1.2); }
+}
+@keyframes wash-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.15); }
+  50% { transform: translate3d(0, -30px, 0) scale(1); }
+}
+
+/* The logo sizes itself from two heights (phone / md+) set as CSS variables by <Logo>, so the server-rendered
+   HTML is already the right size on every device: no resize after hydration. 1.1789 = canvas ratio 560/475. */
+.logo-box {
+  --h: var(--lh);
+  height: var(--h);
+  width: calc(var(--h) / var(--crop) * 1.1789);
+  transition: width 0.5s, height 0.5s;
+}
+.logo-canvas {
+  width: 100%;
+  height: calc(var(--h) / var(--crop));
+  transition: height 0.5s;
+}
+@media (min-width: 768px) {
+  .logo-box { --h: var(--lh-md); }
+}
+
+/* Touch devices: backdrop blur is recomputed on every scroll frame for the fixed header pill and bottom bar,
+   and for each translucent card. Switch it off there and make those surfaces a little more opaque instead. */
+@media (hover: none) and (pointer: coarse) {
+  *, *::before, *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  .card { background-color: rgba(255, 255, 255, 0.95); }
 }
 
 /* Cursor "calm halo" — new to this site */

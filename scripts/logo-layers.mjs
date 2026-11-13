@@ -53,6 +53,17 @@ for (const [k, buf] of Object.entries(layers)) {
   await sharp(buf, { raw: { width: W, height: H, channels: 4 } }).png({ compressionLevel: 9 }).toFile(`${out}/logo-${k}.png`);
 }
 
+// Reversed layers for dark backgrounds (footer): same shapes, drawn in white. The pink wordmark is reused as is.
+for (const k of ["mark", "tag"]) {
+  const src = layers[k];
+  const light = Buffer.alloc(src.length);
+  for (let i = 0; i < src.length; i += 4) {
+    light[i] = light[i + 1] = light[i + 2] = 255;
+    light[i + 3] = src[i + 3];
+  }
+  await sharp(light, { raw: { width: W, height: H, channels: 4 } }).png({ compressionLevel: 9 }).toFile(`${out}/logo-${k}-light.png`);
+}
+
 // Square app icon from the figures only
 const mark = sharp(layers.mark, { raw: { width: W, height: H, channels: 4 } }).png();
 const trimmed = await mark.trim().toBuffer({ resolveWithObject: true });

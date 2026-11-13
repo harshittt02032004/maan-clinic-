@@ -21,18 +21,9 @@ export default function DoctorPortrait({ className = "" }: { className?: string 
         transition={{ duration: 1, delay: 0.2 }}
         style={{ transformOrigin: "bottom" }}
       />
-      <motion.div
-        aria-hidden
-        className="absolute -left-2 top-1/3 size-24 rounded-full border-[10px] border-white/70"
-        animate={{ y: [0, -12, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        aria-hidden
-        className="absolute -right-3 top-16 size-14 rounded-full bg-navy-800"
-        animate={{ y: [0, 10, 0], rotate: [0, 15, 0] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-      />
+      {/* same two floating shapes as before, now CSS transform animations (compositor-driven, no per-frame JS) */}
+      <div aria-hidden className="absolute -left-2 top-1/3 size-24 rounded-full border-[10px] border-white/70 motion-safe:animate-[float-a_6s_ease-in-out_infinite]" />
+      <div aria-hidden className="absolute -right-3 top-16 size-14 rounded-full bg-navy-800 motion-safe:animate-[float-b_7s_ease-in-out_infinite]" />
 
       {/* gentle mask reveal: the photo is uncovered from the bottom up while it settles from a slight zoom */}
       <motion.div

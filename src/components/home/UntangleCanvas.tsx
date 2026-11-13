@@ -10,7 +10,7 @@ import { useScroll } from "framer-motion";
  * On touch devices the page scroll untangles it instead. When the whole line is calm it
  * settles into one soft wave that ends at the CTA anchor (bottom-right) and lights it up.
  */
-const N = 110;
+const POINTS = 110;
 
 export default function UntangleCanvas({ onCalm, className = "" }: { onCalm?: (calm: boolean) => void; className?: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -22,13 +22,17 @@ export default function UntangleCanvas({ onCalm, className = "" }: { onCalm?: (c
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const touch = window.matchMedia("(hover: none)").matches;
     let w = 0, h = 0, raf = 0, t = 0, lit = false;
+    // The loop only runs while the canvas is on screen and the line still has something to do.
+    let visible = true, settled = false;
     const ptr = { x: -9999, y: -9999, active: false };
+    // Phones: fewer points and a lower pixel ratio. The line looks the same at that size and costs about half.
+    const N = touch ? 72 : POINTS;
 
     const rnd = (() => { let s = 2026; return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646; })();
     const seeds = Array.from({ length: N }, () => ({ a: rnd() * Math.PI * 2, k: 0.6 + rnd() * 0.8, j: rnd() - 0.5, calm: reduced ? 1 : 0 }));
 
     const resize = () => {
-      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      const dpr = Math.min(touch ? 1.5 : 2, window.devicePixelRatio || 1);
       const r = canvas.getBoundingClientRect();
       w = r.width; h = r.height;
       canvas.width = w * dpr; canvas.height = h * dpr;
@@ -38,11 +42,19 @@ export default function UntangleCanvas({ onCalm, className = "" }: { onCalm?: (c
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 
+    const wake = () => { settled = false; if (visible && !raf) raf = requestAnimationFrame(draw); };
     const onMove = (e: PointerEvent) => {
       const r = canvas.getBoundingClientRect();
       ptr.x = e.clientX - r.left; ptr.y = e.clientY - r.top; ptr.active = true;
+      wake();
     };
     const onLeave = () => { ptr.active = false; };
+    // Pause completely while the hero is scrolled out of view.
+    const io = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible) wake();
+    });
+    io.observe(canvas);
     canvas.addEventListener("pointermove", onMove);
     canvas.addEventListener("pointerdown", onMove);
     canvas.addEventListener("pointerleave", onLeave);
@@ -63,7 +75,8 @@ export default function UntangleCanvas({ onCalm, className = "" }: { onCalm?: (c
     };
     const ease = (v: number) => 1 - Math.pow(1 - v, 3);
 
-    const draw = () => {
+    function draw() {
+      raf = 0;
       t += 0.016;
       ctx.clearRect(0, 0, w, h);
 
@@ -135,12 +148,15 @@ export default function UntangleCanvas({ onCalm, className = "" }: { onCalm?: (c
       const nowLit = avg > 0.85;
       if (nowLit !== lit) { lit = nowLit; onCalm?.(lit); }
 
-      raf = requestAnimationFrame(draw);
-    };
+      // Fully untangled and nobody touching it: the picture no longer changes, so stop drawing.
+      settled = avg > 0.995 && !ptr.active;
+      if (visible && !settled) raf = requestAnimationFrame(draw);
+    }
     draw();
 
     return () => {
       cancelAnimationFrame(raf);
+      io.disconnect();
       ro.disconnect();
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerdown", onMove);
@@ -148,5 +164,6 @@ export default function UntangleCanvas({ onCalm, className = "" }: { onCalm?: (c
     };
   }, [onCalm, scrollY]);
 
-  return <canvas ref={ref} aria-hidden className={`block h-full w-full touch-none ${className}`} />;
+  // touch-pan-y: a finger that starts on the canvas still scrolls the page (touch-none used to trap it)
+  return <canvas ref={ref} aria-hidden className={`block h-full w-full touch-pan-y ${className}`} />;
 }

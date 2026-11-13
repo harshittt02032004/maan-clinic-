@@ -26,7 +26,8 @@ export default function StickyBookBar() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 90, opacity: 0 }}
           transition={{ duration: 0.45, ease: EASE }}
-          className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-3 gap-1 rounded-2xl border border-white/70 bg-white/90 p-1.5 shadow-[var(--shadow-soft)] backdrop-blur-xl md:hidden"
+          // solid, not translucent: this bar only exists on phones, where a live backdrop blur costs a frame every scroll tick
+          className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-3 gap-1 rounded-2xl border border-navy-100 bg-white p-1.5 shadow-[0_10px_30px_-10px_rgba(28,36,100,0.35)] md:hidden"
           style={{ paddingBottom: "max(0.375rem, env(safe-area-inset-bottom))" }}
         >
           <a href={telLink} className="flex flex-col items-center gap-0.5 rounded-xl py-2 text-[11px] font-bold text-navy-800 active:bg-pink-50">

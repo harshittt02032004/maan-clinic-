@@ -29,7 +29,7 @@ export default function AboutPage() {
 
       <Journey />
 
-      <section className="relative overflow-hidden bg-navy-900 py-20 text-white sm:py-28">
+      <section className="relative isolate overflow-hidden bg-navy-900 py-14 text-white sm:py-28">
         <div className="blob -right-20 top-0 size-96 bg-pink-600/30" />
         <div className="container-x grid items-center gap-12 lg:grid-cols-12">
           <Reveal className="lg:col-span-7">

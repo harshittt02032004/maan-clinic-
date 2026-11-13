@@ -156,8 +156,10 @@ export default function ConditionsTabs() {
           className="relative grid overflow-hidden rounded-3xl border border-navy-100/70 bg-white p-6 shadow-[var(--shadow-soft)] sm:p-8 lg:p-10"
         >
           {/* Invisible copies of every condition's layout, stacked in the same grid cell as the live content:
-              the panel is always exactly as tall as the tallest one, so switching never moves the page. */}
-          <div aria-hidden="true" className="pointer-events-none invisible col-start-1 row-start-1 grid">
+              from lg the panel is always exactly as tall as the tallest one, so switching never moves the page.
+              On phones the panel simply fits its content: reserving the tallest height there left a large
+              blank gap inside the card. */}
+          <div aria-hidden="true" className="pointer-events-none invisible col-start-1 row-start-1 hidden lg:grid">
             {CONDITION_GROUPS.flatMap((gr) =>
               gr.conditions.map((cond) => (
                 <div key={`${gr.id}-${cond.name}`} className="col-start-1 row-start-1 flex flex-col">

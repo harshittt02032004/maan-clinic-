@@ -39,8 +39,11 @@ export default async function ConditionPage({ params }: { params: Promise<{ slug
         <Reveal delay={0.3} className="relative">
           <div className="relative aspect-[4/3] overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/60 shadow-[var(--shadow-soft)] backdrop-blur">
             <MindMotif motif={c.motif} />
-            <span className="pointer-events-none absolute bottom-4 left-5 rounded-full bg-navy-900/85 px-3 py-1 text-[11px] font-semibold text-white">{c.motifCaption}</span>
-            <span className="pointer-events-none absolute right-5 top-4 text-[10px] font-bold uppercase tracking-[0.2em] text-pink-500">move your cursor</span>
+            <span className="pointer-events-none absolute bottom-4 left-4 right-4 w-fit rounded-2xl bg-navy-900/85 px-3 py-1 text-[11px] font-semibold text-white sm:left-5 sm:rounded-full">{c.motifCaption}</span>
+            <span className="pointer-events-none absolute right-5 top-4 text-[10px] font-bold uppercase tracking-[0.2em] text-pink-500">
+              <span className="[@media(hover:none)]:hidden">move your cursor</span>
+              <span className="hidden [@media(hover:none)]:inline">touch the drawing</span>
+            </span>
           </div>
         </Reveal>
       </PageHero>

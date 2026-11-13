@@ -4,28 +4,33 @@ import { CLINIC } from "@/content/site";
 /**
  * The live Google map as the background of the contact hero.
  *
- * The embed draws its pin at the centre of the iframe, so the iframe is made 2.2× the section's height
- * and shifted so that centre falls PIN_FROM_BOTTOM px above the section's bottom edge: the pin lands in the
- * clear strip left under the cards (see `MapFooter`) instead of hiding behind them.
+ * Desktop (lg+): the map fills the whole section behind the cards. The embed draws its pin at the centre of
+ * the iframe, so the iframe is made 2.2× the section's height and shifted so that centre falls
+ * PIN_FROM_BOTTOM px above the section's bottom edge: the pin lands in the clear strip under the cards
+ * (see `MapFooter`) instead of hiding behind them.
+ *
+ * Phones and tablets: a map that tall (≈4,000px of live tiles) is far too heavy and sits behind solid cards
+ * anyway, so the map is only the strip at the bottom (27rem tall, pin in its middle), fading into the page.
  */
 const PIN_FROM_BOTTOM = 190;
 
 export function MapBackdrop() {
   return (
-    <div aria-hidden={false} className="absolute inset-0 -z-10 overflow-hidden bg-pink-50">
+    <div className="absolute inset-0 -z-10 overflow-hidden bg-blush lg:bg-pink-50">
       <iframe
         title="Mann Clinic location on Google Maps"
         src={CLINIC.mapsEmbed}
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
         allowFullScreen
-        className="absolute inset-x-0 h-[220%] w-full border-0 [filter:saturate(0.9)_contrast(1.02)]"
-        style={{ top: `calc(100% - ${PIN_FROM_BOTTOM}px)`, transform: "translateY(-50%)" }}
+        className="absolute inset-x-0 w-full border-0 [filter:saturate(0.9)_contrast(1.02)] max-lg:bottom-0 max-lg:h-[27rem] lg:top-[calc(100%-190px)] lg:h-[220%] lg:-translate-y-1/2"
       />
-      {/* readability wash: strong behind the headings and cards, nearly clear at the bottom where the pin is */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-b from-blush/95 from-0% via-blush/80 via-55% to-blush/5 to-100%" />
-      {/* name chip above the pin */}
-      <div aria-hidden className="pointer-events-none absolute left-1/2 hidden -translate-x-1/2 flex-col items-center sm:flex" style={{ bottom: PIN_FROM_BOTTOM + 58 }}>
+      {/* desktop: readability wash, strong behind the headings and cards, nearly clear at the bottom where the pin is */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 hidden bg-gradient-to-b from-blush/95 from-0% via-blush/80 via-55% to-blush/5 to-100% lg:block" />
+      {/* phones: soften the top edge of the map strip into the page */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-[17rem] h-40 bg-gradient-to-b from-blush to-transparent lg:hidden" />
+      {/* name chip above the pin (desktop; on phones Google's own label is right there) */}
+      <div aria-hidden className="pointer-events-none absolute left-1/2 hidden -translate-x-1/2 flex-col items-center lg:flex" style={{ bottom: PIN_FROM_BOTTOM + 58 }}>
         <span className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-extrabold text-navy-900 shadow-[var(--shadow-soft)]">
           <MapPin className="size-4 text-pink-600" /> Mann Clinic
         </span>
@@ -38,12 +43,7 @@ export function MapBackdrop() {
 export function MapFooter() {
   return (
     <div className="pointer-events-none flex h-72 items-end justify-center pb-1 lg:h-[23rem]">
-      <a
-        href={CLINIC.mapsLink}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="btn-primary pointer-events-auto"
-      >
+      <a href={CLINIC.mapsLink} target="_blank" rel="noopener noreferrer" className="btn-primary pointer-events-auto">
         Get directions <ArrowUpRight className="size-4" />
       </a>
     </div>
