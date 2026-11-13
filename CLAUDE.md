@@ -15,6 +15,7 @@ Next.js 16 App Router · Tailwind v4 · framer-motion · Lenis · lucide-react. 
 - `src/content/faq.ts` — FAQs; `pending: true` hides unconfirmed answers from page + schema.
 - `src/content/about.ts` — About page (v4 biography, clinical interests, journey timeline), trust chips, credential tiles, pillars, first-visit steps. Pillar titles and first-visit steps follow the owner's animation brief, not the doc wording.
 - v4 dropped the forensic psychiatry fellowship and the forensic/community special-interest lines: do not add them back unless Dr. Jain asks.
+- `src/content/reels.ts` + `src/components/media/ReelsSection.tsx` — the clinic's six Instagram reels (owner-supplied, re-encoded) as tap-to-play cards on Home and About; `public/reels/` holds the mp4s + webp posters; nothing autoplays or preloads. `src/components/about/ClinicGallery.tsx` — four real photos from the clinic's Google profile in `public/images/clinic/`.
 - `next.config.ts` — CSP + security headers. Keep `frame-src` in sync with the Maps embed.
 
 ## Still to confirm with Dr. Jain
