@@ -108,10 +108,13 @@ export const CONDITION_GROUPS: ConditionGroup[] = [
     id: "other",
     name: "Other Mental Health Concerns",
     icon: "other",
-    intro: "Common, medical and very treatable concerns that people often hesitate to talk about.",
+    intro: "Other concerns seen at the clinic, for every age — each one medical, common, and treatable.",
     conditions: [
       { name: "OCD", slug: "ocd-treatment", description: by("ocd-treatment").card },
       { name: "Sexual Health Concerns", slug: "sexual-health", description: by("sexual-health").card },
+      // v4: the two new pages
+      { name: "Child & Adolescent Concerns", slug: "child-adolescent-mental-health", description: by("child-adolescent-mental-health").card },
+      { name: "Memory, Headache & Seizures", slug: "memory-headache-seizure-treatment", description: by("memory-headache-seizure-treatment").card },
     ],
   },
 ];

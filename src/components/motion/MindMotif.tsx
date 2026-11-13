@@ -186,6 +186,67 @@ export default function MindMotif({ motif, className = "" }: { motif: Motif; cla
           }
           break;
         }
+        case "blocks": {
+          // building blocks: scattered and tilted, then stacked into a steady pyramid, bottom row first
+          const s = Math.min(w, h) * 0.11, step = s * 1.14;
+          const cx = w / 2, baseY = h * 0.74;
+          let i = 0;
+          for (let row = 0; row < 4; row++) {
+            const count = 4 - row;
+            for (let k = 0; k < count; k++, i++) {
+              const p = P[i];
+              const u = Math.min(1, Math.max(0, calm * 1.6 - i * 0.06));
+              const pull = u * u * (3 - 2 * u);
+              const sx = (0.1 + p.x * 0.8) * w + Math.sin(t * p.v + p.a) * 14;
+              const sy = (0.14 + p.y * 0.6) * h + Math.cos(t * p.v * 0.8 + p.a) * 12;
+              const x = sx + (cx + (k - (count - 1) / 2) * step - sx) * pull;
+              const y = sy + (baseY - row * step - sy) * pull;
+              const tone = i % 3 === 0 ? NAVY : PINK;
+              ctx.save(); ctx.translate(x, y);
+              ctx.rotate(((p.a - Math.PI) * 0.5 + Math.sin(t * 0.6 + p.a) * 0.1) * (1 - pull));
+              ctx.fillStyle = `rgba(${tone},${0.14 + pull * 0.2})`;
+              ctx.strokeStyle = `rgba(${tone},${0.55 + pull * 0.35})`;
+              ctx.lineWidth = 2;
+              ctx.beginPath();
+              if (ctx.roundRect) ctx.roundRect(-s / 2, -s / 2, s, s, s * 0.2);
+              else ctx.rect(-s / 2, -s / 2, s, s);
+              ctx.fill(); ctx.stroke();
+              ctx.restore();
+            }
+          }
+          break;
+        }
+        case "links": {
+          // points that have drifted apart: resting the pointer lets the connections form again
+          const N = 26;
+          const drift = 16 * (1 - calm * 0.75);
+          const pts: { x: number; y: number }[] = [];
+          for (let i = 0; i < N; i++) {
+            const p = P[i];
+            pts.push({
+              x: (0.08 + p.x * 0.84) * w + Math.sin(t * p.v * 0.9 + p.a) * drift,
+              y: (0.12 + p.y * 0.76) * h + Math.cos(t * p.v * 0.7 + p.a * 1.3) * drift,
+            });
+          }
+          const reach = Math.min(w, h) * (0.16 + calm * 0.26);
+          ctx.lineWidth = 1.5;
+          for (let i = 0; i < N; i++) {
+            for (let j = i + 1; j < N; j++) {
+              const a = pts[i], b = pts[j];
+              const d = Math.hypot(a.x - b.x, a.y - b.y);
+              const local = reach + near((a.x + b.x) / 2, (a.y + b.y) / 2, 180) * 50;
+              if (d >= local) continue;
+              ctx.strokeStyle = `rgba(${(i + j) % 2 ? PINK : NAVY},${(1 - d / local) * (0.35 + calm * 0.45)})`;
+              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+            }
+          }
+          for (let i = 0; i < N; i++) {
+            const n = near(pts[i].x, pts[i].y, 160);
+            ctx.fillStyle = `rgba(${i % 3 ? NAVY : PINK},${0.55 + n * 0.4})`;
+            ctx.beginPath(); ctx.arc(pts[i].x, pts[i].y, 2.5 + P[i].r * 0.8 + n * 2, 0, 7); ctx.fill();
+          }
+          break;
+        }
       }
       if (!reduced && visible) raf = requestAnimationFrame(draw);
     }

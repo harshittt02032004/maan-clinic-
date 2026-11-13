@@ -29,6 +29,8 @@ export default async function ConditionPage({ params }: { params: Promise<{ slug
   const c = conditionBySlug((await params).slug);
   if (!c) notFound();
   const others = CONDITIONS.filter((o) => o.slug !== c.slug);
+  // the helpline number inside the safety note becomes a tap-to-call link
+  const [noteBefore, noteAfter = ""] = c.safetyNote?.split(CLINIC.teleManas) ?? [];
 
   return (
     <>
@@ -88,8 +90,9 @@ export default async function ConditionPage({ params }: { params: Promise<{ slug
               <div className="mt-6 flex items-start gap-3 rounded-2xl border border-navy-100 bg-white p-4 text-sm">
                 <LifeBuoy className="mt-0.5 size-5 shrink-0 text-pink-600" />
                 <p className="text-navy-800">
-                  If you are in severe distress right now, call the Government of India's free 24x7 helpline Tele-MANAS:{" "}
-                  <a href={`tel:${CLINIC.teleManas}`} className="font-bold text-pink-700 underline underline-offset-2">{CLINIC.teleManas}</a>.
+                  {noteBefore}
+                  <a href={`tel:${CLINIC.teleManas}`} className="font-bold text-pink-700 underline underline-offset-2">{CLINIC.teleManas}</a>
+                  {noteAfter}
                 </p>
               </div>
             )}

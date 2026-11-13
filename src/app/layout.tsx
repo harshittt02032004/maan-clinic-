@@ -10,7 +10,7 @@ import Footer from "@/components/layout/Footer";
 import FloatingWhatsApp from "@/components/layout/FloatingWhatsApp";
 import StickyBookBar from "@/components/layout/StickyBookBar";
 import JsonLd from "@/components/ui/JsonLd";
-import { SITE_URL } from "@/content/site";
+import { CLINIC, SITE_URL } from "@/content/site";
 import { clinicLd, doctorLd } from "@/lib/seo";
 
 const jakarta = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s",
   },
   description:
-    "Confidential, evidence-based psychiatric care at Mann Clinic, Raebareli. Dr. Mohit Jain (MD Psychiatry, KGMU) treats depression, anxiety, OCD, addiction & more.",
+    `Confidential, evidence-based psychiatric care at Mann Clinic, Raebareli. Dr. Mohit Jain (${CLINIC.degreeShort}, KGMU) treats depression, anxiety, OCD, addiction & more.`,
   openGraph: { type: "website", siteName: "Mann Clinic — Dr. Mohit Jain, Psychiatrist, Raebareli", locale: "en_IN", images: [{ url: "/opengraph-image", width: 1200, height: 630 }] },
   twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true },

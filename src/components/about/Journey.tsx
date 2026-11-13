@@ -13,7 +13,8 @@ import { ABOUT } from "@/content/about";
 export default function Journey() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-62%"]);
+  // three cards (v4): the strip is shorter, so it travels less and needs less scroll than the old four
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-38%"]);
 
   return (
     <section>
@@ -22,7 +23,7 @@ export default function Journey() {
       </div>
 
       {/* desktop: sticky horizontal scrub */}
-      <div ref={ref} className="relative hidden h-[300vh] lg:block">
+      <div ref={ref} className="relative hidden h-[220vh] lg:block">
         <div className="sticky top-0 flex h-screen items-center overflow-hidden">
           <motion.div style={{ x }} className="flex gap-6 pl-[calc((100vw-80rem)/2+2.5rem)]">
             {ABOUT.sections.map((s, i) => (

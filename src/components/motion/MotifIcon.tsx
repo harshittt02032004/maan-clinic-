@@ -20,5 +20,9 @@ export default function MotifIcon({ motif, className = "size-6" }: { motif: Moti
       return <svg {...p}><path d="M10 14a3.5 3.5 0 0 0 5 0l3-3a3.5 3.5 0 0 0-5-5l-1 1" /><path d="M14 10a3.5 3.5 0 0 0-5 0l-3 3a3.5 3.5 0 0 0 5 5l1-1" /><path d="M4 4l2 2M20 20l-2-2" /></svg>;
     case "pair":
       return <svg {...p}><path d="M2 10c3-5 5-5 8 0s5 5 8 0" /><path d="M2 16c3-5 5-5 8 0s5 5 8 0" /><circle cx="21" cy="13" r="1" /></svg>;
+    case "blocks":
+      return <svg {...p}><rect x="3" y="13" width="8" height="8" rx="1.5" /><rect x="13" y="13" width="8" height="8" rx="1.5" /><rect x="8" y="3" width="8" height="8" rx="1.5" /></svg>;
+    case "links":
+      return <svg {...p}><circle cx="5" cy="7" r="2" /><circle cx="19" cy="6" r="2" /><circle cx="12" cy="18" r="2.5" /><path d="M7 6.9l10-.8M6 8.8l4.6 7.1M17.9 7.7l-4.5 8.2" /></svg>;
   }
 }

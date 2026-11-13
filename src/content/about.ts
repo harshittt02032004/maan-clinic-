@@ -1,61 +1,71 @@
 import { CLINIC } from "./site";
 
+/** About page — content doc v4 (Dr. Jain's final biography). */
 export const ABOUT = {
   h1: "About Dr. Mohit Jain",
-  designation: `Consultant Psychiatrist · MBBS, MD (Psychiatry) — KGMU, Lucknow · Reg. No. ${CLINIC.registration}`,
+  designation: `Consultant Psychiatrist · ${CLINIC.qualifications} · ${CLINIC.certification} · Reg. No. ${CLINIC.registration}`,
   intro:
-    "Dr. Mohit Jain is a consultant psychiatrist at Mann Clinic, Raebareli. He trained at King George's Medical University (KGMU), Lucknow — established in 1905, one of India's oldest medical institutions — where he completed both his MBBS and his MD in Psychiatry. He brings together international research exposure, academic experience and years of clinical practice to make quality mental healthcare available close to home.",
+    "Dr. Mohit Jain is a consultant psychiatrist at Mann Clinic, Gora Bazar, Raebareli. He completed his MBBS from King George's Medical University (KGMU), Lucknow, in 2012, and his MD in Neuro-Psychiatry from the same institution (2018-2021).",
   sections: [
     {
-      title: "Education & training",
-      body: "Dr. Jain completed both his MBBS and his MD in Psychiatry at KGMU, Lucknow. He is also ECFMG certified (USA) — the credential that qualifies international medical graduates for practice and training in the United States.",
-      year: "KGMU",
+      title: "Experience in the United States",
+      body: "After MBBS, Dr. Jain worked in the United States as a research assistant for approximately four years. Alongside research, he gained clinical exposure through observerships in the US healthcare system, developing an appreciation for collaborative, patient-centred care. He is ECFMG certified (USA).",
+      year: "USA · approx. 4 years",
     },
     {
-      title: "Research in the United States",
-      body: "Before specialising, Dr. Jain spent four years (2012-2016) as a Research Assistant in the United States, working in medical research and evidence-based healthcare. That research discipline still shapes how he practises: treatment decisions at Mann Clinic are grounded in evidence, not assumption.",
-      year: "2012–16",
+      title: "At IMHH, Agra",
+      body: "Following his MD, Dr. Jain served as a Senior Resident in Psychiatry at the Institute of Mental Health and Hospital (IMHH), Agra — established in 1859, one of India's oldest psychiatric hospitals — for two years, and then as Assistant Professor in the Department of Psychiatry for two years, contributing to patient care, academic activities and the training of medical professionals.",
+      year: "2 + 2 years",
     },
     {
-      title: "Academic & clinical career",
-      body: "After his MD, Dr. Jain served as a Senior Resident in Psychiatry for two years, and then as Assistant Professor at the Institute of Mental Health and Hospital (IMHH), Agra — established in 1859, one of India's oldest psychiatric hospitals. There he treated patients across the full range of psychiatric conditions while teaching and training medical students and postgraduate residents.",
-      year: "IMHH Agra",
-    },
-    {
-      title: "Forensic psychiatry fellowship & special interests",
-      body: "Dr. Jain has been selected for a Forensic Psychiatry Fellowship in the United States, reflecting his interest in the interface between mental health and law. His special interests include forensic psychiatry, community mental health, de-addiction psychiatry and sexual medicine.",
-      year: "USA",
+      title: "At Mann Clinic",
+      body: "Dr. Jain now consults at Mann Clinic, Gora Bazar, Raebareli, where he is committed to making mental healthcare accessible, understandable and compassionate. Through clinical practice and public mental-health education, he aims to reduce stigma, encourage timely professional consultation, and help individuals and families make informed decisions about treatment.",
+      year: "Raebareli",
     },
   ],
-  quote:
-    "Mental health is an integral part of overall well-being. Quality psychiatric care should be accessible, understandable and stigma-free — for everyone.",
-  credentials: [
-    "MBBS — King George's Medical University, Lucknow",
-    "MD (Psychiatry) — King George's Medical University, Lucknow",
-    `Medical Registration — ${CLINIC.registration}, ${CLINIC.council}`,
-    "ECFMG Certified — USA",
-    "Research Assistant — United States (2012-2016)",
-    "Senior Resident, Psychiatry — 2 years",
-    "Assistant Professor — Institute of Mental Health & Hospital (IMHH), Agra",
-    "Selected — Forensic Psychiatry Fellowship, USA",
+  /** Clinical interests — each one links to its condition page. */
+  interests: [
+    { label: "Depression", slug: "depression-treatment" },
+    { label: "Anxiety and panic symptoms", slug: "anxiety-treatment" },
+    { label: "Sleep disorders", slug: "sleep-disorders-treatment" },
+    { label: "Obsessive-compulsive disorder (OCD)", slug: "ocd-treatment" },
+    { label: "Addiction-related problems", slug: "de-addiction-treatment" },
+    { label: "Sexual health concerns", slug: "sexual-health" },
+    { label: "Child and adolescent behavioural difficulties", slug: "child-adolescent-mental-health" },
+    { label: "Memory problems, headaches and seizure disorders", slug: "memory-headache-seizure-treatment" },
   ],
+  quote: "Mental health deserves the same attention and care as physical health.",
+  approach:
+    "His approach rests on compassionate listening, evidence-informed treatment, patient dignity, and supporting both patients and their families throughout recovery.",
+  /** "The Journey (timeline)" — in order. */
+  journey: [
+    { t: "MBBS", d: "King George's Medical University, Lucknow", when: "2012" },
+    { t: "Research Assistant and clinical observerships", d: "United States", when: "approx. 4 years" },
+    { t: "ECFMG Certification", d: "USA", when: "" },
+    { t: CLINIC.degree, d: "King George's Medical University, Lucknow", when: "2018-2021" },
+    { t: "Senior Resident, Psychiatry", d: "IMHH, Agra", when: "2 years" },
+    { t: "Assistant Professor, Department of Psychiatry", d: "IMHH, Agra", when: "2 years" },
+    { t: "Consultant Psychiatrist", d: "Mann Clinic, Gora Bazar, Raebareli", when: "" },
+  ],
+  /** Registration & memberships. TODO(confirm): professional memberships (IPS etc.), if any. */
+  registrationLine: `Medical Registration — ${CLINIC.registration}, ${CLINIC.council}`,
   ctaLine: "Consult Dr. Jain at Mann Clinic, Raebareli.",
 };
 
-/** Home: hero chips + credential tiles. */
-export const TRUST_CHIPS = [
-  "MD Psychiatry — KGMU, Lucknow",
-  "Ex-Assistant Professor — IMHH, Agra",
-  "Research Experience — USA (2012-2016)",
-];
+/** Home: hero chips + credential tiles (v4). */
+export const TRUST_CHIPS = [`${CLINIC.degree} — KGMU, Lucknow`, "Ex-Assistant Professor — IMHH, Agra", "ECFMG Certified — USA"];
 
 export const CREDENTIAL_TILES = [
-  { k: "MBBS & MD (Psychiatry)", v: "King George's Medical University, Lucknow", icon: "GraduationCap" },
-  { k: "Assistant Professor", v: "Institute of Mental Health & Hospital, Agra", icon: "Landmark" },
-  { k: "4 Years of Medical Research", v: "United States (2012-2016)", icon: "FlaskConical" },
-  { k: "Forensic Psychiatry Fellowship", v: "Selected, USA", icon: "Scale" },
+  { k: `MBBS & ${CLINIC.degree}`, v: "King George's Medical University, Lucknow", icon: "GraduationCap" },
+  { k: "Senior Resident & Assistant Professor", v: "Institute of Mental Health & Hospital, Agra (2 + 2 years)", icon: "Landmark" },
+  { k: "Research & Clinical Observerships", v: "United States (approx. 4 years)", icon: "FlaskConical" },
+  { k: "ECFMG Certified", v: "USA", icon: "BadgeCheck" },
 ] as const;
 
+/**
+ * Titles below follow the owner's animation brief (11 Nov 2026) for the "Our approach" circles.
+ * The content doc (v3 and v4) words the first two as "Compassionate" and "Confidential".
+ */
 export const PILLARS = [
   { t: "Compassionate Care", d: "You will be heard, not hurried. Your story matters as much as your symptoms.", icon: "HeartHandshake" },
   { t: "Confidential & Safe", d: "What you share in the consultation room stays in the consultation room.", icon: "LockKeyhole" },
@@ -63,6 +73,11 @@ export const PILLARS = [
   { t: "Stigma-Free", d: "Seeing a psychiatrist is healthcare, exactly like seeing a cardiologist or an orthopaedic surgeon. Nothing more, nothing less.", icon: "Sun" },
 ] as const;
 
+/**
+ * Wording from the owner's animation brief (11 Nov 2026) for the first-visit timeline.
+ * The content doc (v3 and v4) has longer versions: "An unhurried conversation / A clear explanation /
+ * A plan made with you".
+ */
 export const FIRST_VISIT = [
   { t: "Conversation", d: "We listen to your concerns and understand your needs." },
   { t: "Explanation", d: "We discuss your concerns and explain the available treatment options in simple language." },

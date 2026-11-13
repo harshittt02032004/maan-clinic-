@@ -29,7 +29,7 @@ export default function Footer() {
           <Logo variant="full" tone="light" height={148} mobileHeight={124} />
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-navy-200">{CLINIC.tagline}</p>
           <p className="mt-6 text-sm font-semibold text-white">
-            {CLINIC.doctor} — {CLINIC.qualifications}
+            {CLINIC.doctor} — {CLINIC.qualifications} · {CLINIC.certification}
           </p>
           <p className="text-xs text-navy-300">
             Reg. No. {CLINIC.registration}, {CLINIC.council}

@@ -1,6 +1,16 @@
-/** All copy below is verbatim from the Mann Clinic content doc v3 (NMC-aligned). */
+/** All copy below is verbatim from the Mann Clinic content doc v4 (Nov 2026, NMC-aligned). */
 
-export type Motif = "rain" | "pulse" | "loop" | "wave" | "fragments" | "night" | "chain" | "pair";
+export type Motif =
+  | "rain"
+  | "pulse"
+  | "loop"
+  | "wave"
+  | "fragments"
+  | "night"
+  | "chain"
+  | "pair"
+  | "blocks"
+  | "links";
 
 export type Faq = { q: string; a: string };
 
@@ -20,7 +30,8 @@ export type Condition = {
   signsTitle: string;
   signs: string[];
   whenToConsult: string;
-  safetyNote?: boolean;
+  /** Tele-MANAS safety note shown under "When to consult" (depression, child & adolescent). */
+  safetyNote?: string;
   honesty?: string;
   treatment: string;
   faqs: Faq[];
@@ -39,7 +50,7 @@ export const CONDITIONS: Condition[] = [
     h1: "Depression Treatment in Raebareli",
     metaTitle: "Depression Treatment in Raebareli | Mann Clinic — Dr. Mohit Jain",
     metaDescription:
-      "Persistent sadness, low energy, loss of interest? Confidential, evidence-based depression treatment in Raebareli by Dr. Mohit Jain, MD Psychiatry (KGMU).",
+      "Persistent sadness, low energy, loss of interest? Confidential, evidence-based depression treatment in Raebareli by Dr. Mohit Jain, MD Neuro-Psychiatry (KGMU).",
     intro:
       "Feeling low for a few days is normal. But when sadness stays for weeks, drains your energy, and pulls you away from work, family and the things you enjoyed — that is depression. It is one of the most common medical conditions in the world, and it is treatable.",
     signsTitle: "Common signs of depression",
@@ -55,7 +66,8 @@ export const CONDITIONS: Condition[] = [
     ],
     whenToConsult:
       "If several of these signs have stayed for two weeks or more — or if thoughts of self-harm have appeared even once — consult a psychiatrist. The earlier treatment begins, the easier recovery usually is.",
-    safetyNote: true,
+    safetyNote:
+      "If you are in severe distress right now, call the Government of India's free 24x7 helpline Tele-MANAS: 14416.",
     treatment:
       "Your consultation begins with a detailed, unhurried assessment. Dr. Jain explains what is happening in simple language, then builds a plan with you — counselling and therapy, medication where it is needed, and regular follow-ups to track recovery. No labels, no judgement, complete confidentiality.",
     faqs: [
@@ -79,7 +91,7 @@ export const CONDITIONS: Condition[] = [
     h1: "Anxiety & Panic Attack Treatment in Raebareli",
     metaTitle: "Anxiety & Panic Attack Treatment in Raebareli | Mann Clinic",
     metaDescription:
-      "Constant worry, racing heart, panic attacks? Confidential, evidence-based anxiety treatment in Raebareli from Dr. Mohit Jain, MD Psychiatry (KGMU, Lucknow).",
+      "Constant worry, racing heart, panic attacks? Confidential, evidence-based anxiety treatment in Raebareli from Dr. Mohit Jain, MD Neuro-Psychiatry (KGMU, Lucknow).",
     intro:
       "Worrying before an exam or an important decision is normal. But when worry becomes constant, uncontrollable, and starts showing up in the body — racing heart, breathlessness, trembling — it is an anxiety disorder. This includes generalised anxiety, panic disorder, social anxiety and phobias. All of them are treatable.",
     signsTitle: "Common signs of anxiety",
@@ -156,7 +168,7 @@ export const CONDITIONS: Condition[] = [
     h1: "Bipolar Disorder Treatment in Raebareli",
     metaTitle: "Bipolar Disorder Treatment in Raebareli | Mann Clinic",
     metaDescription:
-      "Phases of unusual energy followed by deep lows? Bipolar disorder is manageable. Confidential treatment in Raebareli by Dr. Mohit Jain, MD Psychiatry (KGMU).",
+      "Phases of unusual energy followed by deep lows? Bipolar disorder is manageable. Confidential treatment in Raebareli by Dr. Mohit Jain, MD Neuro-Psychiatry (KGMU).",
     intro:
       "Bipolar disorder is more than mood swings. It brings episodes of unusually high energy and confidence (mania) and episodes of deep depression — sometimes weeks or months apart. With the correct diagnosis and a consistent treatment plan, people with bipolar disorder live stable, full lives.",
     signsTitle: "Signs to watch for",
@@ -211,7 +223,7 @@ export const CONDITIONS: Condition[] = [
     whenToConsult:
       "The person affected often does not realise something is wrong — so the family's role is crucial. Medical evidence consistently links earlier treatment with better long-term outcomes.",
     treatment:
-      "Dr. Jain served as Assistant Professor at the Institute of Mental Health and Hospital (IMHH), Agra — established in 1859, one of India's oldest psychiatric hospitals — where he treated patients across the full range of psychiatric conditions. Treatment at Mann Clinic includes thorough evaluation, medication, structured family guidance, relapse prevention and long-term follow-up. Families are never left alone in this; they are guided on exactly how to support recovery at home.",
+      "Dr. Jain served as Senior Resident and then Assistant Professor at the Institute of Mental Health and Hospital (IMHH), Agra — established in 1859, one of India's oldest psychiatric hospitals — where he treated patients across the full range of psychiatric conditions. Treatment at Mann Clinic includes thorough evaluation, medication, structured family guidance, relapse prevention and long-term follow-up. Families are never left alone in this; they are guided on exactly how to support recovery at home.",
     faqs: [
       {
         q: "Can a person with schizophrenia recover?",
@@ -327,7 +339,7 @@ export const CONDITIONS: Condition[] = [
     metaDescription:
       "ED, premature ejaculation, low desire, performance anxiety — confidential, science-based sexual health treatment in Raebareli by Dr. Mohit Jain, MD (KGMU).",
     intro:
-      "Most sexual health problems are common, medical, and very treatable. What makes them worse is silence and misinformation. At Mann Clinic, sexual health care is what it should be: scientific, private and free of judgement, from a qualified MD psychiatrist with a special interest in sexual medicine.",
+      "Most sexual health problems are common, medical, and very treatable. What makes them worse is silence and misinformation. At Mann Clinic, sexual health care is what it should be: scientific, private and free of judgement, from a qualified MD psychiatrist.",
     signsTitle: "Concerns we treat",
     signs: [
       "Erectile dysfunction",
@@ -350,6 +362,87 @@ export const CONDITIONS: Condition[] = [
     ],
     motif: "pair",
     motifCaption: "Two rhythms, out of step — finding each other again.",
+  },
+  {
+    slug: "child-adolescent-mental-health",
+    name: "Child & Adolescent Concerns",
+    hindi: "बच्चों और किशोरों का मन",
+    card: "Anger, falling grades, school refusal, screen overuse. Children show stress through behaviour — early, family-centred guidance helps.",
+    h1: "Child & Adolescent Mental Health Care in Raebareli",
+    metaTitle: "Child & Adolescent Mental Health — Psychiatrist in Raebareli | Mann Clinic",
+    metaDescription:
+      "Behavioural problems, school difficulties, screen overuse, anxiety in children and teens — consult Dr. Mohit Jain, MD (Neuro-Psychiatry), at Mann Clinic, Raebareli.",
+    intro:
+      "Children rarely say “I am stressed.” They show it — through anger, falling grades, silence, or the mobile phone that never leaves their hand. Behavioural and emotional difficulties in children are common, and they are best addressed early, with the family involved.",
+    signsTitle: "Signs parents often notice",
+    signs: [
+      "Frequent anger or irritability beyond the usual",
+      "Falling school performance, or refusal to go to school",
+      "Excessive mobile or gaming use that the child cannot control",
+      "Changes in sleep or appetite",
+      "Withdrawing from friends and family",
+      "Repeated physical complaints (stomach ache, headache) with normal reports",
+      "Unusual fears or constant worry",
+      "Talk of hopelessness, or any mention of self-harm",
+    ],
+    whenToConsult:
+      "If a change has lasted several weeks and is affecting school, friendships or home life, a consultation helps — first to understand what is happening, then to treat only if needed.",
+    safetyNote:
+      "If a child or teenager talks about self-harm, seek help the same day. The Government of India's free 24x7 helpline Tele-MANAS is available at 14416.",
+    treatment:
+      "Assessment happens with the child and the parents together. Dr. Jain explains what is going on in plain language, and the plan is built around the child: behavioural guidance for parents, counselling, and medication only where it is clearly needed. Consultations are child-friendly and confidential.",
+    faqs: [
+      {
+        q: "Will my child be given a “label”?",
+        a: "No. The goal is to understand the difficulty and resolve it, not to attach a diagnosis to a child unnecessarily.",
+      },
+      {
+        q: "Do both parents need to come?",
+        a: "Whoever can come, should. What matters is that the family understands the plan, because much of the improvement happens at home.",
+      },
+      {
+        q: "Is medication always prescribed?",
+        a: "No. Many childhood concerns improve with behavioural guidance and counselling alone. Medication is discussed openly with parents before any decision.",
+      },
+    ],
+    motif: "blocks",
+    motifCaption: "Scattered blocks, stacked again — one steady piece at a time.",
+  },
+  {
+    slug: "memory-headache-seizure-treatment",
+    name: "Memory, Headache & Seizures",
+    hindi: "याददाश्त, सिरदर्द और मिर्गी",
+    card: "Forgetfulness in the elderly, recurring headaches, seizure disorders (mirgi) — assessed and managed with neuro-psychiatric care.",
+    h1: "Memory, Headache & Seizure Care in Raebareli",
+    metaTitle: "Memory, Headache & Seizure Treatment in Raebareli | Mann Clinic",
+    metaDescription:
+      "Memory problems in the elderly, chronic headaches, seizure disorders (mirgi) — neuro-psychiatric care by Dr. Mohit Jain, MD (Neuro-Psychiatry), KGMU Lucknow.",
+    intro:
+      "The brain and the mind are not separate departments. Memory loss, chronic headaches and seizures sit at the meeting point of neurology and psychiatry — the area Dr. Jain's MD in Neuro-Psychiatry covers. These concerns are assessed medically, with investigations and neurological evaluation where needed.",
+    signsTitle: "What we see",
+    signs: [
+      "Forgetfulness in the elderly that is affecting daily tasks",
+      "Memory complaints at any age — sometimes low mood presents as memory loss, and that is treatable",
+      "Chronic or frequent headaches, especially those linked to stress, poor sleep or painkiller overuse",
+      "Seizure disorders (mirgi) — diagnosis, medication and long-term management",
+      "Behavioural changes that accompany memory or seizure problems",
+    ],
+    whenToConsult:
+      "If forgetfulness is interfering with everyday life, if a seizure has occurred even once, or if headaches keep returning despite painkillers, a proper evaluation is the right next step.",
+    treatment:
+      "Careful evaluation comes first, to find the actual cause. Then a plan: medication where indicated, treatment of any underlying depression or anxiety, sleep and lifestyle correction, and clear guidance for the family — especially for elderly patients with memory decline. For seizure disorders, the focus is regular medication and follow-up; for most people, seizures can be brought under good control with consistent treatment.",
+    faqs: [
+      {
+        q: "Is memory loss just a normal part of ageing?",
+        a: "Some slowing is normal. Forgetting that disrupts daily life — repeating questions, losing the way, mismanaging money — is not “just age” and deserves evaluation.",
+      },
+      {
+        q: "Is mirgi treatable?",
+        a: "Yes. With regular medication and follow-up, most people with seizure disorders lead normal daily lives. Stopping medicines suddenly is the most common reason seizures return.",
+      },
+    ],
+    motif: "links",
+    motifCaption: "Points that drifted apart — connecting again, steadily.",
   },
 ];
 

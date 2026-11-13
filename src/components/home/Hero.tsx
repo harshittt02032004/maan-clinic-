@@ -45,7 +45,7 @@ export default function Hero() {
           />
 
           <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.5, ease: EASE }} className="mt-12 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
-            Dr. Mohit Jain, MD Psychiatry (KGMU, Lucknow), provides confidential, judgement-free care for depression, anxiety, OCD, addiction, sleep and sexual health concerns — treatment backed by science, delivered with compassion.
+            Dr. Mohit Jain, {CLINIC.degreeShort} (KGMU, Lucknow), provides confidential, judgement-free care for depression, anxiety, OCD, sleep, addiction, sexual health, children's behavioural concerns, and memory or seizure problems — for every age, backed by science.
           </motion.p>
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.65, ease: EASE }} className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">

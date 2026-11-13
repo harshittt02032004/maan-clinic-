@@ -1,19 +1,31 @@
 /**
  * Single source of truth for clinic facts.
  * Anything wrapped in [square brackets] is still a placeholder from the
- * content doc (v3, NMC-aligned) — confirm with Dr. Jain, then replace here.
+ * content doc (v4, Nov 2026, NMC-aligned) — confirm with Dr. Jain, then replace here.
  */
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://mann-clinic.vercel.app";
 
+/**
+ * v4 biography gives the degree as MD (Neuro-Psychiatry).
+ * TODO(confirm): the website must show the title EXACTLY as on the degree certificate and medical
+ * registration — MD (Neuro-Psychiatry) or MD (Psychiatry). Change these two lines, then search the
+ * page copy in src/content/conditions.ts for "Neuro-Psychiatry" (meta descriptions + the memory page).
+ */
+const DEGREE = "MD (Neuro-Psychiatry)";
+const DEGREE_SHORT = "MD Neuro-Psychiatry";
+
 export const CLINIC = {
   name: "Mann Clinic",
   brandMark: "मन",
-  tagline: "Mann Clinic — confidential, evidence-based psychiatric care in Raebareli.",
+  tagline: "Mann Clinic — We Care About Your Feelings.",
   doctor: "Dr. Mohit Jain",
   doctorShort: "Dr. Jain",
   role: "Consultant Psychiatrist",
-  qualifications: "MBBS, MD (Psychiatry)",
+  qualifications: `MBBS, ${DEGREE}`,
+  degree: DEGREE,
+  degreeShort: DEGREE_SHORT,
+  certification: "ECFMG Certified (USA)",
   university: "KGMU, Lucknow",
   /** TODO(confirm): registration number + council — permitted info under NMC rules. */
   registration: "[Registration Number]",
@@ -26,10 +38,15 @@ export const CLINIC = {
   phoneE164: "+919889497550",
   whatsappE164: "919889497550",
   altPhoneDisplay: "+91 79918 22067",
-  /** Google Business Profile address (2026-11-03). Facebook/Instagram bio says "In front of the church, Near Kendriya Vidyalaya, Gora Bazar" — same spot. */
+  /**
+   * v4: "Gora Bazar, Raebareli — confirmed", building / landmark line still to be confirmed.
+   * TODO(confirm): the landmark line below is the one the clinic prints on its own posters and
+   * Facebook page ("In front of the church, Near Kendriya Vidyalaya, Gora Bazar"). The Google Business
+   * Profile words the same spot as "Singh Vihar Colony, near Central School, Krishna Nagar, Civil Lines".
+   */
   address: {
-    line1: "In front of the Church, Singh Vihar Colony",
-    line2: "Near Central School (KV), Krishna Nagar, Civil Lines",
+    line1: "In front of the Church, Near Kendriya Vidyalaya",
+    line2: "Gora Bazar",
     city: "Raebareli",
     region: "Uttar Pradesh",
     postalCode: "229001",
@@ -50,7 +67,7 @@ export const CLINIC = {
   teleManas: "14416",
 } as const;
 
-export const fullAddress = `${CLINIC.address.line1}, ${CLINIC.address.line2}, ${CLINIC.address.city}, UP ${CLINIC.address.postalCode}`;
+export const fullAddress = `${CLINIC.address.line1}, ${CLINIC.address.line2}, ${CLINIC.address.city}, Uttar Pradesh ${CLINIC.address.postalCode}`;
 
 export const NAV = [
   { href: "/", label: "Home" },

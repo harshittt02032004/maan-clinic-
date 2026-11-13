@@ -38,8 +38,8 @@ export const doctorLd = {
   alumniOf: [{ "@type": "CollegeOrUniversity", name: "King George's Medical University, Lucknow" }],
   hasCredential: [
     { "@type": "EducationalOccupationalCredential", credentialCategory: "degree", name: "MBBS" },
-    { "@type": "EducationalOccupationalCredential", credentialCategory: "degree", name: "MD (Psychiatry)" },
-    { "@type": "EducationalOccupationalCredential", name: "ECFMG Certified (USA)" },
+    { "@type": "EducationalOccupationalCredential", credentialCategory: "degree", name: CLINIC.degree },
+    { "@type": "EducationalOccupationalCredential", credentialCategory: "certification", name: CLINIC.certification },
   ],
 };
 

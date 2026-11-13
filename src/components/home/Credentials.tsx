@@ -1,10 +1,10 @@
 "use client";
 
-import { GraduationCap, Landmark, FlaskConical, Scale } from "lucide-react";
+import { GraduationCap, Landmark, FlaskConical, BadgeCheck } from "lucide-react";
 import { Stagger, Item } from "@/components/motion/Reveal";
 import { CREDENTIAL_TILES } from "@/content/about";
 
-const ICONS = { GraduationCap, Landmark, FlaskConical, Scale };
+const ICONS = { GraduationCap, Landmark, FlaskConical, BadgeCheck };
 
 export default function Credentials() {
   return (

@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { CLINIC } from "@/content/site";
 
 export const runtime = "edge";
 export const alt = "Mann Clinic — Dr. Mohit Jain, Psychiatrist, Raebareli";
@@ -16,7 +17,7 @@ export default function OgImage() {
             <div style={{ fontSize: 34, fontWeight: 800, color: "#121738" }}>Mann Clinic</div>
           </div>
           <div style={{ fontSize: 68, fontWeight: 800, color: "#121738", lineHeight: 1.05, maxWidth: 900 }}>Mental health is health.</div>
-          <div style={{ fontSize: 30, color: "#5b6283", maxWidth: 900 }}>Dr. Mohit Jain · MD Psychiatry (KGMU) · Confidential, evidence-based care in Raebareli</div>
+          <div style={{ fontSize: 30, color: "#5b6283", maxWidth: 900 }}>{`Dr. Mohit Jain · ${CLINIC.degreeShort} (KGMU) · Confidential, evidence-based care in Raebareli`}</div>
         </div>
       </div>
     ),

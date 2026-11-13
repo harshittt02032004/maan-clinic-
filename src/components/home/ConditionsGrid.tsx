@@ -18,7 +18,7 @@ export default function ConditionsGrid({ cta = "Learn more" }: { cta?: string })
                 <span className="grid size-12 place-items-center rounded-2xl bg-pink-50 text-pink-600 transition-colors duration-500 group-hover:bg-pink-600 group-hover:text-white">
                   <MotifIcon motif={c.motif} className="size-6" />
                 </span>
-                <span className="text-xs font-bold tabular-nums text-pink-300">0{i + 1}</span>
+                <span className="text-xs font-bold tabular-nums text-pink-300">{String(i + 1).padStart(2, "0")}</span>
               </span>
               <span className="mt-6 block font-display text-xl font-extrabold leading-tight text-navy-900">{shortName(c)}</span>
               <span className="hindi mt-1 block text-sm text-pink-600">{c.hindi}</span>

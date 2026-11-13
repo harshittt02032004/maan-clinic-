@@ -41,8 +41,7 @@ export const FAQS: SiteFaq[] = [
   },
   {
     q: "Do you see children and teenagers?",
-    a: "[Confirm with Dr. Jain — state the age group seen, or where younger patients are referred.]",
-    pending: true,
+    a: "Yes. Dr. Jain sees children and adolescents for behavioural and emotional concerns. Parents are involved at every step.",
   },
   {
     q: "Is online consultation available?",

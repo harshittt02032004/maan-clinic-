@@ -6,7 +6,7 @@ import ConditionsGrid from "@/components/home/ConditionsGrid";
 export const metadata: Metadata = {
   title: "Mental Health Conditions We Treat | Mann Clinic, Raebareli",
   description:
-    "Depression, anxiety, OCD, bipolar disorder, schizophrenia, sleep problems, de-addiction and sexual health — confidential treatment at Mann Clinic, Raebareli.",
+    "Depression, anxiety, OCD, sleep, de-addiction, sexual health, child & adolescent concerns, memory and seizure problems — care at Mann Clinic, Raebareli.",
   alternates: { canonical: "/conditions/" },
 };
 
