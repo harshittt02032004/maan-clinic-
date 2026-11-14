@@ -34,7 +34,8 @@ export default function TiltCard({ children, className = "" }: { children: React
       style={{ rotateX: srx, rotateY: sry, transformStyle: "preserve-3d", perspective: 900 }}
       className={`relative ${className}`}
     >
-      <motion.div aria-hidden style={{ background: spot }} className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      {/* group-hoverable: on touch screens the sticky :hover made this flash on every tap */}
+      <motion.div aria-hidden style={{ background: spot }} className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] opacity-0 transition-opacity duration-500 group-hoverable:opacity-100" />
       {children}
     </motion.div>
   );

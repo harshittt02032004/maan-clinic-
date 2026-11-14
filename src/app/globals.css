@@ -1,5 +1,24 @@
 @import "tailwindcss";
 
+/* Hover effects only on devices that really hover. On touch screens the :hover state sticks to
+   whatever was last tapped, so hover lifts/shadows flash on and off with every tap (the card
+   "flicker"). `hoverable:` and `group-hoverable:` replace `hover:`/`group-hover:` wherever the
+   effect is decorative; touch gets `active:` press feedback instead. */
+@custom-variant hoverable {
+  @media (hover: hover) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+@custom-variant group-hoverable {
+  @media (hover: hover) {
+    &:is(:where(.group):hover *) {
+      @slot;
+    }
+  }
+}
+
 /* ───────────────────────── Mann Clinic design tokens ─────────────────────────
    Palette lifted from the Instagram poster set: magenta-pink hero colour,
    deep indigo-navy for headings, blush washes, white cards.                  */
