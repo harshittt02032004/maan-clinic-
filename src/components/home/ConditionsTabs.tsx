@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { CONDITION_GROUPS, type GroupIcon } from "@/content/conditionGroups";
@@ -153,8 +154,24 @@ export default function ConditionsTabs() {
           id={`${baseId}-panel`}
           role="tabpanel"
           aria-labelledby={`${baseId}-tab-${g.id}`}
-          className="relative grid overflow-hidden rounded-3xl border border-navy-100/70 bg-white p-6 shadow-[var(--shadow-soft)] sm:p-8 lg:p-10"
+          className="relative isolate grid overflow-hidden rounded-3xl border border-navy-100/70 bg-white p-6 shadow-[var(--shadow-soft)] sm:p-8 lg:p-10"
         >
+          {/* AI-generated artwork of the selected condition, cross-fading behind the panel.
+              The wash keeps the copy readable; art shows through toward the bottom-right. */}
+          <AnimatePresence initial={false}>
+            <motion.div
+              key={`art-${c.slug}`}
+              aria-hidden
+              initial={reduce ? { opacity: 1 } : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={reduce ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: reduce ? 0 : D * 1.4, ease: EASE }}
+              className="absolute inset-0 -z-10"
+            >
+              <Image src={`/images/conditions/${c.slug}.webp`} alt="" fill sizes="(min-width: 1024px) 60vw, 100vw" className="object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/[0.97] via-white/[0.88] to-white/55" />
+            </motion.div>
+          </AnimatePresence>
           {/* Invisible copies of every condition's layout, stacked in the same grid cell as the live content:
               from lg the panel is always exactly as tall as the tallest one, so switching never moves the page.
               On phones the panel simply fits its content: reserving the tallest height there left a large
@@ -285,6 +302,8 @@ export default function ConditionsTabs() {
           </AnimatePresence>
         </div>
       </div>
+      {/* NMC: AI-generated visuals must be labelled */}
+      <p className="mt-3 text-xs text-muted">Panel background: AI-generated artwork (no real patients or places).</p>
     </LayoutGroup>
   );
 }
