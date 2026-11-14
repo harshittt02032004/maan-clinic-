@@ -158,6 +158,8 @@ html.lenis, html.lenis body { height: auto; }
   z-index: -1;
   border-radius: 9999px;
   pointer-events: none;
+  /* own compositor layer: the masked gradient is rasterised once instead of repainting while the page scrolls */
+  transform: translateZ(0);
   -webkit-mask-image: radial-gradient(closest-side, #000 0%, rgba(0, 0, 0, 0.6) 40%, transparent 100%);
   mask-image: radial-gradient(closest-side, #000 0%, rgba(0, 0, 0, 0.6) 40%, transparent 100%);
 }
@@ -170,14 +172,20 @@ html.lenis, html.lenis body { height: auto; }
   opacity: 0;
 }
 [data-reveal][data-in] {
-  animation: reveal-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--rd, 0s) backwards;
+  animation: reveal-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) var(--rd, 0s) backwards;
 }
 [data-stagger][data-in] > [data-reveal-item] {
-  animation: reveal-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * var(--rg, 0.08s) + 0.05s) backwards;
+  animation: reveal-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * var(--rg, 0.08s) + 0.05s) backwards;
 }
 @keyframes reveal-up {
-  from { opacity: 0; transform: translate3d(0, 28px, 0); }
+  from { opacity: 0; transform: translate3d(0, 22px, 0); }
   to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal], [data-stagger] > [data-reveal-item] {
+    animation: none !important;
+    opacity: 1 !important;
+  }
 }
 
 /* The two floating shapes behind the doctor's portrait */

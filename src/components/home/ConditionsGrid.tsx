@@ -15,7 +15,7 @@ export default function ConditionsGrid({ cta = "Learn more" }: { cta?: string })
           <TiltCard className="group h-full">
             <Link
               href={`/${c.slug}/`}
-              className="card flex h-full flex-col p-6 transition-[transform,box-shadow] duration-500 hoverable:-translate-y-1.5 hoverable:shadow-[var(--shadow-pink)] active:scale-[0.985]"
+              className="card flex h-full flex-col p-6 transition-[transform,box-shadow] duration-300 ease-out hoverable:-translate-y-1.5 hoverable:shadow-[var(--shadow-pink)] active:scale-[0.985]"
             >
               <span className="flex items-center justify-between">
                 <span className="grid size-12 place-items-center rounded-2xl bg-pink-50 text-pink-600 transition-colors duration-500 group-hoverable:bg-pink-600 group-hoverable:text-white">

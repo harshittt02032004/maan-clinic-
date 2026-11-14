@@ -13,8 +13,8 @@ export default function Credentials() {
         {CREDENTIAL_TILES.map((c) => {
           const Icon = ICONS[c.icon];
           return (
-            <Item key={c.k} className="card group flex items-start gap-4 p-5 transition-transform duration-500 hover:-translate-y-1">
-              <span className="icon-draw grid size-11 shrink-0 place-items-center rounded-2xl bg-navy-900 text-pink-200 transition-colors duration-500 group-hover:bg-pink-600 group-hover:text-white">
+            <Item key={c.k} className="card group flex items-start gap-4 p-5 transition-transform duration-300 hoverable:-translate-y-1">
+              <span className="icon-draw grid size-11 shrink-0 place-items-center rounded-2xl bg-navy-900 text-pink-200 transition-colors duration-300 group-hoverable:bg-pink-600 group-hoverable:text-white">
                 <Icon className="size-5" />
               </span>
               <span>

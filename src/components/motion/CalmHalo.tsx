@@ -13,13 +13,19 @@ export default function CalmHalo() {
     if (window.matchMedia("(hover: none)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const el = ref.current!;
     let tx = window.innerWidth / 2, ty = window.innerHeight * 0.4, x = tx, y = ty, raf = 0;
-    const onMove = (e: PointerEvent) => { tx = e.clientX; ty = e.clientY; };
     const tick = () => {
+      raf = 0;
       x += (tx - x) * 0.06;
       y += (ty - y) * 0.06;
       el.style.setProperty("--hx", `${x}px`);
       el.style.setProperty("--hy", `${y}px`);
-      raf = requestAnimationFrame(tick);
+      // The halo has caught up with the cursor: stop the loop instead of burning a frame
+      // callback forever. The next pointermove wakes it again.
+      if (Math.abs(tx - x) + Math.abs(ty - y) > 0.4) raf = requestAnimationFrame(tick);
+    };
+    const onMove = (e: PointerEvent) => {
+      tx = e.clientX; ty = e.clientY;
+      if (!raf) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     window.addEventListener("pointermove", onMove, { passive: true });

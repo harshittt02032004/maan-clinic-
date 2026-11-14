@@ -98,7 +98,7 @@ export default function ReelsSection({ intro }: { intro?: string }) {
                     onClick={() => toggle(i)}
                     className="absolute inset-0 grid cursor-pointer place-items-center focus-visible:outline-none"
                   >
-                    <span className="grid size-14 place-items-center rounded-full bg-white/90 text-pink-600 shadow-[var(--shadow-pink)] transition-transform duration-300 group-hover:scale-110">
+                    <span className="grid size-14 place-items-center rounded-full bg-white/90 text-pink-600 shadow-[var(--shadow-pink)] transition-transform duration-300 group-hoverable:scale-110">
                       <Play className="ml-0.5 size-6 fill-current" />
                     </span>
                     <span className="absolute bottom-3 right-3 rounded-full bg-navy-900/80 px-2.5 py-1 text-[11px] font-bold tabular-nums text-white">{fmt(r.seconds)}</span>

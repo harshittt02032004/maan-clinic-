@@ -24,7 +24,7 @@ export default function ClinicGallery() {
                 alt={p.alt}
                 fill
                 sizes={p.cell.startsWith("col-span-2") ? "(min-width: 1024px) 40vw, 100vw" : "(min-width: 1024px) 20vw, 50vw"}
-                className="object-cover transition-transform duration-700 hover:scale-105"
+                className="object-cover transition-transform duration-700 hoverable:scale-105"
               />
             </div>
           </Item>

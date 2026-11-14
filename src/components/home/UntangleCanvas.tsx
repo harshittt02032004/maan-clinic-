@@ -25,8 +25,10 @@ export default function UntangleCanvas({ onCalm, className = "" }: { onCalm?: (c
     // The loop only runs while the canvas is on screen and the line still has something to do.
     let visible = true, settled = false;
     const ptr = { x: -9999, y: -9999, active: false };
-    // Phones: fewer points and a lower pixel ratio. The line looks the same at that size and costs about half.
-    const N = touch ? 72 : POINTS;
+    // Phones: fewer points, a lower pixel ratio and half the frame rate. The line is a slow organic
+    // scribble — at 30fps on a 390px screen it looks identical and costs a quarter of the desktop draw.
+    const N = touch ? 48 : POINTS;
+    let lastDraw = 0;
 
     const rnd = (() => { let s = 2026; return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646; })();
     const seeds = Array.from({ length: N }, () => ({ a: rnd() * Math.PI * 2, k: 0.6 + rnd() * 0.8, j: rnd() - 0.5, calm: reduced ? 1 : 0 }));
@@ -75,9 +77,14 @@ export default function UntangleCanvas({ onCalm, className = "" }: { onCalm?: (c
     };
     const ease = (v: number) => 1 - Math.pow(1 - v, 3);
 
-    function draw() {
+    function draw(now = 0) {
       raf = 0;
-      t += 0.016;
+      if (touch && now - lastDraw < 28) { // ~30fps cap on touch screens
+        raf = requestAnimationFrame(draw);
+        return;
+      }
+      lastDraw = now;
+      t += touch ? 0.032 : 0.016;
       ctx.clearRect(0, 0, w, h);
 
       // scroll-driven calm on touch devices (and a bonus for everyone)
