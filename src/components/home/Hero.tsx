@@ -1,55 +1,72 @@
 "use client";
 
-import { useCallback, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { CalendarCheck, MessageCircle, ShieldCheck, ArrowRight } from "lucide-react";
+import { CalendarCheck, MessageCircle, ShieldCheck, GraduationCap, Landmark, BadgeCheck } from "lucide-react";
 import LangFlip from "@/components/motion/LangFlip";
 import Magnetic from "@/components/motion/Magnetic";
-import UntangleCanvas from "@/components/home/UntangleCanvas";
-import { LogoMark } from "@/components/layout/Logo";
 import { CLINIC, whatsappLink } from "@/content/site";
 import { TRUST_CHIPS } from "@/content/about";
 import { EASE } from "@/lib/motion";
 
 /**
- * "Untangle" hero: headline on the left; on the right a tangled thought-line the visitor
- * smooths out with the cursor (or by scrolling on touch). Once calm, it flows into the
- * "Start here" CTA, which lights up.
+ * Split hero in the "Expert Care. Personal Connection." layout the owner supplied
+ * (16 Nov 2026): copy on the left with an underline swoosh, name block, reassurance
+ * pill, CTAs and a credential icon row; the doctor's photo fills the right half in
+ * an organic rounded frame over brand waves. Same copy and header as before.
  */
+const CHIP_ICONS = [GraduationCap, Landmark, BadgeCheck];
+
+const up = (delay: number) => ({
+  initial: { opacity: 0, y: 18 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.65, delay, ease: EASE },
+});
+
 export default function Hero() {
   const { scrollY } = useScroll();
-  const yText = useTransform(scrollY, [0, 600], [0, 70]);
-  const fade = useTransform(scrollY, [0, 420], [1, 0.35]);
-  const [lit, setLit] = useState(false);
-  const onCalm = useCallback((v: boolean) => setLit(v), []);
+  const yText = useTransform(scrollY, [0, 600], [0, 60]);
+  const fade = useTransform(scrollY, [0, 420], [1, 0.4]);
 
   return (
-    <section className="relative isolate overflow-hidden pt-28 pb-12 sm:pt-36 sm:pb-16 lg:min-h-[92vh] lg:pb-24">
-      <div className="bg-dots absolute inset-0 -z-10 opacity-70 [mask-image:radial-gradient(70%_60%_at_50%_30%,#000,transparent)]" />
+    <section className="relative isolate overflow-hidden pt-28 pb-10 sm:pt-36 sm:pb-14 lg:pb-0">
+      <div className="bg-dots absolute inset-0 -z-10 opacity-60 [mask-image:radial-gradient(70%_60%_at_40%_30%,#000,transparent)]" />
       <div className="blob -left-40 top-10 size-[30rem] bg-pink-300/50" />
-      <div className="blob right-[-10rem] top-32 size-[26rem] bg-navy-200/60" />
 
-      <div className="container-x grid items-center gap-12 lg:grid-cols-12 lg:gap-8">
+      <div className="container-x grid items-center gap-12 lg:grid-cols-12 lg:gap-6">
         {/* copy */}
-        <motion.div style={{ y: yText, opacity: fade }} className="relative z-10 lg:col-span-6">
-          <motion.span initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: EASE }} className="eyebrow whitespace-nowrap max-sm:px-3 max-sm:text-[9.5px] max-sm:tracking-[0.1em]">
+        <motion.div style={{ y: yText, opacity: fade }} className="relative z-10 lg:col-span-6 lg:pb-20">
+          <motion.span {...up(0)} className="eyebrow whitespace-nowrap max-sm:px-3 max-sm:text-[9.5px] max-sm:tracking-[0.1em]">
             <span className="size-1.5 shrink-0 rounded-full bg-pink-500" /> Psychiatry & Mental Wellness · Raebareli
           </motion.span>
 
           <LangFlip
             hindi="मन का इलाज भी इलाज है।"
             english="Mental health is health."
-            className="mt-6 max-w-2xl text-[2.6rem] font-extrabold leading-[1.08] text-navy-900 sm:text-6xl lg:text-[4.2rem]"
+            className="mt-6 max-w-2xl text-[2.6rem] font-extrabold leading-[1.08] text-navy-900 sm:text-6xl lg:text-[4rem]"
           />
+          {/* name block, like the reference's "Dr. Maya Patel, MD" row */}
+          <motion.div {...up(0.25)} className="mt-7 flex items-center gap-4">
+            <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-pink-50 text-pink-600 ring-1 ring-pink-100">
+              <ShieldCheck className="size-6" />
+            </span>
+            <span className="border-l-2 border-pink-200 pl-4">
+              <span className="block font-display text-xl font-extrabold text-navy-900 sm:text-2xl">{CLINIC.doctor}</span>
+              <span className="block text-sm font-semibold text-muted">{CLINIC.qualifications} · {CLINIC.university}</span>
+            </span>
+          </motion.div>
 
-          <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.5, ease: EASE }} className="mt-12 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
+          <motion.p {...up(0.35)} className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
             Dr. Mohit Jain, {CLINIC.degreeShort} (KGMU, Lucknow), provides confidential, judgement-free care for depression, anxiety, OCD, sleep, addiction, sexual health, children's behavioural concerns, and memory or seizure problems — for every age, backed by science.
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.65, ease: EASE }} className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-            {/* full-width, thumb-sized buttons on phones */}
+          {/* reassurance pill, like the reference's "Accepting New Patients" */}
+          <motion.p {...up(0.45)} className="mt-6 inline-flex items-center gap-2.5 rounded-full bg-pink-50 py-2.5 pl-3 pr-5 text-sm font-bold text-navy-800 ring-1 ring-pink-100">
+            <ShieldCheck className="size-4 shrink-0 text-pink-600" /> Completely confidential consultations · No referral needed
+          </motion.p>
+
+          <motion.div {...up(0.55)} className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <Magnetic className="block sm:inline-block">
               <Link href="/contact/" className="btn-primary w-full sm:w-auto">
                 <CalendarCheck className="size-4" /> Book an Appointment
@@ -62,73 +79,64 @@ export default function Hero() {
             </Magnetic>
           </motion.div>
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }} className="mt-5 flex items-start gap-2 text-sm font-semibold text-navy-700">
-            <ShieldCheck className="mt-0.5 size-4 shrink-0 text-pink-600" /> Completely confidential consultations · No referral needed
-          </motion.p>
-
-          <motion.ul initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.1, delayChildren: 1 } } }} className="mt-8 flex flex-wrap gap-2">
-            {TRUST_CHIPS.map((c) => (
-              <motion.li key={c} variants={{ hidden: { opacity: 0, scale: 0.9, y: 8 }, show: { opacity: 1, scale: 1, y: 0 } }} className="rounded-full border border-navy-100 bg-white/80 px-4 py-2 text-xs font-bold text-navy-800 backdrop-blur">
-                {c}
-              </motion.li>
-            ))}
+          {/* credential row with separators, like the reference's icon strip */}
+          <motion.ul {...up(0.7)} className="mt-9 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap min-[420px]:items-stretch min-[420px]:gap-0 lg:mt-11">
+            {TRUST_CHIPS.map((c, i) => {
+              const Icon = CHIP_ICONS[i] ?? BadgeCheck;
+              const [k, v] = c.split(" — ");
+              return (
+                <li key={c} className="flex min-w-0 flex-1 items-center gap-3 min-[420px]:flex-col min-[420px]:items-start min-[420px]:gap-2 min-[420px]:border-l min-[420px]:border-navy-100 min-[420px]:px-4 min-[420px]:first:border-l-0 min-[420px]:first:pl-0">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-white text-pink-600 shadow-[0_2px_10px_rgba(236,45,132,0.14)] ring-1 ring-pink-100">
+                    <Icon className="size-[18px]" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-[13px] font-extrabold leading-tight text-navy-900">{k}</span>
+                    <span className="block text-[11px] font-semibold leading-tight text-muted">{v}</span>
+                  </span>
+                </li>
+              );
+            })}
           </motion.ul>
         </motion.div>
 
-        {/* untangle stage */}
+        {/* photo */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.3, ease: EASE }}
-          className="relative mx-auto aspect-[4/5] w-full max-w-xl sm:aspect-[5/4] lg:col-span-6 lg:max-w-none"
+          initial={{ opacity: 0, x: 28 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.9, delay: 0.2, ease: EASE }}
+          className="relative mx-auto w-full max-w-md lg:col-span-6 lg:max-w-none lg:self-end"
         >
-          <div className="absolute inset-0 rounded-[2.5rem] border border-white/70 bg-white/55 shadow-[var(--shadow-soft)] backdrop-blur-sm" />
-          <UntangleCanvas onCalm={onCalm} className="relative rounded-[2.5rem]" />
+          {/* soft shape behind the photo */}
+          <div aria-hidden className="absolute -right-10 -top-10 -z-10 size-72 rounded-full bg-gradient-to-br from-pink-100 to-navy-100/60 sm:size-96" />
+          <div className="blob -left-16 bottom-0 size-80 bg-navy-200/50" />
 
-          {/* labels */}
-          <span className="hindi pointer-events-none absolute left-6 top-5 text-sm font-bold text-navy-900/70">उलझन</span>
-          <span className="pointer-events-none absolute left-6 top-10 text-[10px] font-bold uppercase tracking-[0.22em] text-pink-500">
-            <span className="hidden sm:inline">move your cursor over the line</span>
-            <span className="sm:hidden">scroll to untangle</span>
-          </span>
+          <div className="relative overflow-hidden rounded-[2.5rem] rounded-bl-[5.5rem] border border-white/80 bg-gradient-to-b from-pink-50 via-white to-navy-50 shadow-[var(--shadow-soft)] lg:rounded-b-none lg:border-b-0">
+            <div className="relative aspect-[4/5] sm:aspect-[5/5.4] lg:aspect-[6/5.9]">
+              <Image
+                src="/images/dr-mohit-jain-hero.webp"
+                alt={`${CLINIC.doctor}, ${CLINIC.role}, at Mann Clinic, Raebareli`}
+                fill
+                priority
+                sizes="(min-width: 1024px) 46vw, (min-width: 640px) 28rem, 100vw"
+                className="object-cover object-top"
+              />
+              {/* brand wave along the bottom, like the reference's teal sweep */}
+              <svg aria-hidden viewBox="0 0 640 110" preserveAspectRatio="none" className="absolute inset-x-0 bottom-0 h-16 w-full sm:h-20">
+                <path d="M0 68 C 140 18, 260 102, 420 62 C 520 38, 590 52, 640 70 L 640 110 L 0 110 Z" fill="rgba(18,23,56,0.92)" />
+                <path d="M0 86 C 150 44, 300 108, 470 72 C 560 54, 610 62, 640 74 L 640 110 L 0 110 Z" fill="var(--color-pink-500)" opacity="0.35" />
+              </svg>
+            </div>
 
-          {/* doctor chip */}
-          <motion.div
-            initial={{ opacity: 0, x: -16 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 1.1 }}
-            className="card absolute bottom-[4.75rem] left-4 flex max-w-[calc(100%-2rem)] items-center gap-3 px-3.5 py-2.5 pr-5 sm:bottom-5 sm:left-5"
-          >
-            {CLINIC.doctorPhoto ? (
-              <span className="relative size-11 overflow-hidden rounded-full ring-2 ring-pink-200">
-                <Image src={CLINIC.doctorPhoto} alt={CLINIC.doctor} fill sizes="44px" className="object-cover object-top" />
-              </span>
-            ) : (
-              <span className="grid size-11 place-items-center rounded-full bg-pink-50"><LogoMark size={30} /></span>
-            )}
-            <span className="leading-tight">
-              <span className="block font-display text-sm font-extrabold text-navy-900">{CLINIC.doctor}</span>
-              <span className="block text-[11px] font-semibold text-muted">{CLINIC.qualifications} · {CLINIC.university}</span>
-            </span>
-          </motion.div>
-
-          {/* CTA the line flows into */}
-          {/* When the line settles the button pulses three times, then rests. This is a CSS transform animation
-              (runs on the compositor); the old JS-driven pulse repeated forever and cost a frame's work on every
-              tick for the rest of the page, even after the hero had scrolled away. */}
-          <div className={`absolute inset-x-4 bottom-4 sm:inset-x-auto sm:bottom-5 sm:right-5 ${lit ? "motion-safe:animate-[cta-pulse_1.6s_ease-in-out_3]" : ""}`}>
-            {/* phones: the chip sits above and this button spans the panel, so the two never overlap */}
-            <Link
-              href="/contact/"
-              className={`group flex w-full items-center justify-center gap-2 rounded-full border-2 px-5 py-3 text-sm font-bold transition-all duration-500 sm:inline-flex sm:w-auto ${
-                lit ? "border-pink-600 bg-pink-600 text-white shadow-[var(--shadow-pink)]" : "border-pink-200 bg-white/90 text-navy-900 hover:border-pink-400"
-              }`}
+            {/* name tag on the photo */}
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.9, ease: EASE }}
+              className="absolute bottom-5 left-5 rounded-2xl bg-white/90 px-4 py-2.5 shadow-[var(--shadow-soft)] backdrop-blur sm:bottom-7 sm:left-7"
             >
-              <span className="hindi">सुलझन</span>
-              <span className="text-navy-300 group-hover:text-current">·</span>
-              Start here
-              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
+              <span className="block font-display text-sm font-extrabold text-navy-900">{CLINIC.doctor}</span>
+              <span className="block text-[11px] font-semibold text-muted">{CLINIC.role} · {CLINIC.degreeShort}</span>
+            </motion.div>
           </div>
         </motion.div>
       </div>
