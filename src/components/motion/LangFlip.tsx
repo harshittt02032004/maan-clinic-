@@ -45,16 +45,22 @@ export default function LangFlip({ hindi, english, className = "" }: { hindi: st
 
       {/* first load and every language change: each word rises out of its own mask (no flipping, no bounce) */}
       <span className="relative col-start-1 row-start-1">
-        <AnimatePresence mode="popLayout">
-          <motion.span key={text} className={`block ${en ? "" : "hindi"}`} aria-hidden>
+        <AnimatePresence mode="wait" initial={false}>
+          {/* mode="wait": the old line fades out as one piece before the new words rise — the two
+              languages can never overlap mid-flip (popLayout let the exiting line escape its masks) */}
+          <motion.span
+            key={text}
+            className={`block ${en ? "" : "hindi"}`}
+            aria-hidden
+            exit={{ opacity: 0, y: -14, transition: { duration: 0.22, ease: EASE } }}
+          >
             {words.map((w, i) => (
               <span key={i} className="inline-block overflow-hidden align-bottom pb-[0.14em] -mb-[0.14em]">
                 <motion.span
                   className="inline-block will-change-transform"
                   initial={{ y: "115%" }}
                   animate={{ y: 0 }}
-                  exit={{ y: "-115%" }}
-                  transition={{ duration: 0.85, ease: EASE, delay: 0.15 + i * 0.09 }}
+                  transition={{ duration: 0.7, ease: EASE, delay: 0.08 + i * 0.08 }}
                 >
                   {w}
                 </motion.span>

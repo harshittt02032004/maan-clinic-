@@ -188,6 +188,12 @@ html.lenis, html.lenis body { height: auto; }
   }
 }
 
+/* Hero photo card: a slow breathing float (compositor-only transform) */
+@keyframes hero-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+
 /* The two floating shapes behind the doctor's portrait */
 @keyframes float-a {
   0%, 100% { transform: translateY(0); }

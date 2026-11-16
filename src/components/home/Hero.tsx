@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { CalendarCheck, MessageCircle, ShieldCheck, GraduationCap, Landmark, BadgeCheck } from "lucide-react";
 import LangFlip from "@/components/motion/LangFlip";
 import Magnetic from "@/components/motion/Magnetic";
+import TiltCard from "@/components/motion/TiltCard";
 import { CLINIC, whatsappLink } from "@/content/site";
 import { TRUST_CHIPS } from "@/content/about";
 import { EASE } from "@/lib/motion";
@@ -28,9 +29,11 @@ export default function Hero() {
   const { scrollY } = useScroll();
   const yText = useTransform(scrollY, [0, 600], [0, 60]);
   const fade = useTransform(scrollY, [0, 420], [1, 0.4]);
+  // the photo card drifts a touch slower than the page (gentle parallax)
+  const yPhoto = useTransform(scrollY, [0, 600], [0, -36]);
 
   return (
-    <section className="relative isolate overflow-hidden pt-28 pb-10 sm:pt-36 sm:pb-14 lg:pb-0">
+    <section className="relative isolate overflow-hidden pt-28 pb-10 sm:pt-36 sm:pb-14 lg:pb-16">
       <div className="bg-dots absolute inset-0 -z-10 opacity-60 [mask-image:radial-gradient(70%_60%_at_40%_30%,#000,transparent)]" />
       <div className="blob -left-40 top-10 size-[30rem] bg-pink-300/50" />
 
@@ -101,6 +104,7 @@ export default function Hero() {
 
         {/* photo */}
         <motion.div
+          style={{ y: yPhoto }}
           initial={{ opacity: 0, x: 28 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.9, delay: 0.2, ease: EASE }}
@@ -110,10 +114,14 @@ export default function Hero() {
           <div aria-hidden className="absolute -right-10 -top-10 -z-10 size-72 rounded-full bg-gradient-to-br from-pink-100 to-navy-100/60 sm:size-96" />
           <div className="blob -left-16 bottom-0 size-80 bg-navy-200/50" />
 
-          <div className="relative overflow-hidden rounded-[2.5rem] rounded-bl-[5.5rem] border border-white/80 bg-gradient-to-b from-pink-50 via-white to-navy-50 shadow-[var(--shadow-soft)] lg:rounded-b-none lg:border-b-0">
+          {/* animated card: slow breathing float (hover devices) on the wrapper, 3-D tilt + spotlight
+              under the cursor on TiltCard — separate elements so the two transforms never fight */}
+          <div className="motion-safe:[@media(hover:hover)]:animate-[hero-float_7s_ease-in-out_infinite]">
+          <TiltCard className="group">
+          <div className="relative overflow-hidden rounded-[2.5rem] rounded-bl-[5.5rem] border border-white/80 bg-gradient-to-b from-pink-50 via-white to-navy-50 shadow-[var(--shadow-soft)]">
             <div className="relative aspect-[4/5] sm:aspect-[5/5.4] lg:aspect-[6/5.9]">
               <Image
-                src="/images/dr-mohit-jain-hero.webp"
+                src="/images/dr-mohit-jain-hero2.webp"
                 alt={`${CLINIC.doctor}, ${CLINIC.role}, at Mann Clinic, Raebareli`}
                 fill
                 priority
@@ -137,6 +145,8 @@ export default function Hero() {
               <span className="block font-display text-sm font-extrabold text-navy-900">{CLINIC.doctor}</span>
               <span className="block text-[11px] font-semibold text-muted">{CLINIC.role} · {CLINIC.degreeShort}</span>
             </motion.div>
+          </div>
+          </TiltCard>
           </div>
         </motion.div>
       </div>
